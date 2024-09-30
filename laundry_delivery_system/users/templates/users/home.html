@@ -1,0 +1,16 @@
+{% extends "users/base.html" %}
+{% block title %} Home Page {% endblock title%}
+{% block content %}
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome</h1>
+        <p class="lead">
+            home temp
+        </p>
+        <hr class="my-4">
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Log In</a>
+            <a class="btn btn-primary btn-lg" href="{% url 'users-register' %}" role="button">Sign Up</a>
+        </p>
+    </div>
+
+{% endblock content %}

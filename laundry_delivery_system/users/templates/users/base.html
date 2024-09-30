@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %} {% endblock %} </title>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="/">Home</a> |
+      <a href="#">Profile</a> |
+      <a href="#">Logout</a> |
+      <a href="#">Sign in</a>
+    </nav>
+
+    {% if messages %}
+      <div>
+        {% for message in messages %}
+          <div>{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

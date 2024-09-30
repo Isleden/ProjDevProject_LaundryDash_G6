@@ -1,0 +1,42 @@
+{% extends "users/base.html" %}
+{% block title %} Register Page {% endblock title %}
+{% block content %}
+
+<h2>Sign Up</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {% if form.errors %}
+        <p style="color: red;">
+            {% for key, value in form.errors.items %}
+                {{ value }}
+            {% endfor %}
+        </p>
+    {% endif %}
+    
+    <label>First Name</label>
+    {{ form.first_name }}<br><br>
+    
+    <label>Last Name</label>
+    {{ form.last_name }}<br><br>
+    
+    <label>Username</label>
+    {{ form.username }}<br><br>
+    
+    <label>Email</label>
+    {{ form.email }}<br><br>
+    
+    <label>Password</label>
+    {{ form.password1 }}<br><br>
+    
+    <label>Confirm Password</label>
+    {{ form.password2 }}<br><br>
+    
+    <button type="submit">Sign Up</button>
+</form>
+
+<p>
+    Already have an account? <a href="#">Sign in here</a>.
+</p>
+
+{% endblock content %}
