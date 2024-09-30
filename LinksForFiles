@@ -1,5 +1,22 @@
 Functional Requirements
-https://docs.google.com/document/d/1-Zxzq1j9B19VwqQiUmcVYTe3HtOICleI/edit?usp=sharing&ouid=114918830064332772168&rtpof=true&sd=true
+1.	User Registration:
+•	Our platform supports an efficient user-friendly registration process, allowing new users to quickly register, create profiles, and start using the service.
+
+2.	Service Selection and Order Placement:
+•	Our platforms enable users to choose their preferred laundry provider based on location, reviews, and service types. Users can place orders with specific instructions, which are then communicated to the selected provider.
+
+3.	Real-Time Tracking and Status Updates:
+•	Users can track the status of their laundry orders in real time, from pickup to cleaning to delivery. This enhances user trust and satisfaction.
+
+4.	Customer Support:
+•	Our platforms include a customer support system, helping through chat, email, or phone. This process supports the business objective of improving customer satisfaction and loyalty by resolving issues quickly and effectively.
+
+5.	Payment Processing:
+•	Our platform handles secure payment processing, allowing users to pay for services through cash or e-wallet.
+
+6.	Login:
+•	Allows existing users to securely access their accounts by entering their username and password. This function ensures that both customers and service providers can access personalized features and track their laundry deliveries.
+
 
 Gannt Chart
 https://docs.google.com/spreadsheets/d/1BFyPhuVGLfjDlSZgdM9JFChxuGCm9DQm/edit?usp=sharing&ouid=114918830064332772168&rtpof=true&sd=true
