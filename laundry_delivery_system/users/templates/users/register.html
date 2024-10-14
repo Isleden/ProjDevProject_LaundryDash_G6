@@ -4,13 +4,25 @@
 {% block content %}
 
 <style>
+    body{
+        background-image: url('https://cdn.vectorstock.com/i/500p/00/08/set-of-bath-pink-foam-isolated-on-transparent-vector-43970008.jpg'); /* Replace with the direct URL of your image */
+        background-size: cover;
+        background-repeat: no-repeat; 
+        background-position: center; 
+      
+        height: 100vh; 
+        overflow: hidden;
+    }
+
     .register-container {
         width: 400px;
         margin: 0 auto;
-        background-color: #f9f9f9;
+        background-color: rgba(249, 249, 249, 0.9); /* Semi-transparent background */
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative; /* Required for layering */
+        z-index: 1; /* Ensures the form appears above the blurred background */
     }
 
     .register-container h2 {
