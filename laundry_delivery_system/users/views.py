@@ -35,7 +35,7 @@ class RegisterView(View):
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}')
 
-            return redirect(to='/')
+            return redirect(to='login')
 
         return render(request, self.template_name, {'form': form})
 
@@ -54,3 +54,7 @@ class CustomLoginView(LoginView):
 
         # else browser session will be as long as the session cookie time "SESSION_COOKIE_AGE" defined in settings.py
         return super(CustomLoginView, self).form_valid(form)
+    
+class MainPageView(View):
+    def get(self, request):
+        return render(request, 'users/mainpage.html')
