@@ -114,11 +114,15 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
+
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
