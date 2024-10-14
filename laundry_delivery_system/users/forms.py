@@ -13,7 +13,7 @@ class RegisterForm(UserCreationForm):
     password1 = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Password','class': 'form-control','data-toggle': 'passowrd', 'id': 'password',}))
     password2 = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password','class': 'form-control','data-toggle': 'passowrd', 'id': 'password',}))
 
-class Meta:
+    class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
 

@@ -10,8 +10,11 @@
     <nav>
       <a href="/">Home</a> |
       <a href="#">Profile</a> |
-      <a href="#">Logout</a> |
-      <a href="#">Sign in</a>
+      <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-lg">Logout</button>
+      </form>
+      <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Log in</a>
     </nav>
 
     {% if messages %}

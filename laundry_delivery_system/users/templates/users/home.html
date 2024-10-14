@@ -1,18 +1,67 @@
 {% extends "users/base.html" %}
-{% block title %} Home Page {% endblock title%}
+{% block title %} Home Page {% endblock title %}
+
 {% block content %}
-    <div class="jumbotron">
-        <h1 class="display-4">Welcome</h1>
-        <p class="lead">
-            home temp
-        </p>
-        <hr class="my-4">
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Log In</a>
-            <a class="btn btn-primary btn-lg" href="{% url 'logout' %}" role="button">Logout</a>
-            <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Sign in</a>
-            <a class="btn btn-primary btn-lg" href="{% url 'users-register' %}" role="button">Sign Up</a>
-        </p>
-    </div>
+
+<style>
+    body {
+        background-image: url('https://cdn.vectorstock.com/i/500p/00/08/set-of-bath-pink-foam-isolated-on-transparent-vector-43970008.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .jumbotron {
+        background-color: rgba(255, 182, 193, 0.8); /* Light pink background */
+        padding: 40px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 50px auto;
+        width: 60%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .jumbotron h1 {
+        font-size: 3em;
+        color: #FF69B4; /* Hot pink color */
+    }
+
+    .jumbotron p.lead {
+        font-size: 1.5em;
+        color: #333;
+        margin-top: 20px;
+    }
+
+    .btn-custom {
+        background-color: #FF69B4; /* Hot pink button background */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin: 5px;
+        cursor: pointer;
+        font-size: 1.2em;
+        text-decoration: none;
+    }
+
+    .btn-custom:hover {
+        background-color: #FFC0CB; /* Lighter pink on hover */
+    }
+</style>
+
+<div class="jumbotron">
+    <h1 class="display-4">Welcome</h1>
+    <p class="lead">
+        We're glad you're here! Explore and enjoy our community.
+    </p>
+    <hr class="my-4">
+    <p class="lead">
+        
+        <a class="btn-custom" href="{% url 'login' %}" role="button">Log in</a>
+        <a class="btn-custom" href="{% url 'users-register' %}" role="button">Sign Up</a>
+    </p>
+</div>
 
 {% endblock content %}
