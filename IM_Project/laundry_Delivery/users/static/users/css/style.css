@@ -1,0 +1,133 @@
+.logo {
+    margin-bottom: 10px;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url('https://media.istockphoto.com/id/1329385425/photo/young-couple-looking-for-a-proper-drying-machine.jpg?s=612x612&w=0&k=20&c=VQC96klsEERq_Fndtw0_4iCk_548L1rDZBVKZrjycZ4=');
+    background-size: cover; /* Cover the entire div while maintaining aspect ratio */
+    background-position: center; /* Center the background image */
+    height: 100vh; /* 100% of the viewport height */
+    width: 100%; /* Full width */
+    color: white; /* Set text color to ensure readability */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+    text-align: center; /* Center text */
+    z-index: -1;
+}
+
+/* Header styling */
+.welcome-header {
+    font-size: 3rem; /* Large font size */
+    font-weight: bold; /* Bold text */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Text shadow for depth */
+    margin-bottom: 20px; /* Spacing below the header */
+}
+
+/* Button styling */
+.btn-get-started {
+    background-color: #dc3545; /* Pink background */
+    border: none; /* Remove border */
+    padding: 10px 20px; /* Padding for the button */
+    font-size: 1.25rem; /* Slightly larger text */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.btn-get-started:hover {
+    background-color: #c82333; /* Darker pink on hover */
+}
+
+.home {
+    position: absolute;
+}
+
+.title {
+    margin: 50px;
+    text-align: center;
+}
+
+/* Carousel styles */
+.carousel-image-container {
+    position: relative;
+    width: 100%; /* Full width */
+    height: 500px; /* Set a fixed height for the carousel images */
+    overflow: hidden; /* Ensure images don't overflow */
+}
+
+.carousel-image {
+    width: 100%; /* Cover the entire container */
+    height: 100%; /* Cover the entire container */
+    object-fit: cover; /* Maintain aspect ratio without distortion */
+    position: absolute; /* Position the image absolutely */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the image */
+    z-index: 1; /* Ensure image is above the background */
+}
+
+.carousel-image-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: inherit; /* Use the same background image */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the background */
+    filter: blur(10px); /* Add a blur effect */
+    z-index: 0; /* Behind the image */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 50px; /* Adjust this value based on your needs */
+}
+
+.carousel-control-prev img,
+.carousel-control-next img {
+    display: block;
+    margin: auto; /* Center the images */
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 60%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the text */
+    width: 75%;
+    color: white; /* Text color */
+    text-align: center; /* Center text */
+    z-index: 2; /* Above the image */
+    padding: 10px; /* Add some padding */
+    font-family: 'Arial', sans-serif; /* Change to your preferred font */
+    text-shadow: 
+        2px 2px 0 rgba(0, 0, 0, 0.7), /* Black outline effect */
+        -2px -2px 0 rgba(0, 0, 0, 0.7), /* Black outline effect */
+        2px -2px 0 rgba(0, 0, 0, 0.7), /* Black outline effect */
+        -2px 2px 0 rgba(0, 0, 0, 0.7); /* Black outline effect */
+}
+
+.carousel-caption h5 {
+    font-size: 1.5rem; /* Adjust title size */
+    font-weight: bold; /* Bold title */
+}
+
+.carousel-caption p {
+    font-size: 1rem; /* Adjust description size */
+}
+
+.laundry-shop-image {
+    width: 200px; /* Set desired width */
+    height: 200px; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure the image covers the area */
+}
+
+.something-text {
+    
+}

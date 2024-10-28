@@ -1,0 +1,39 @@
+{% extends 'users/base.html' %}
+{% block title %}Order History{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Order History</h2>
+
+    {% if orders %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Upper Body Clothes</th>
+                    <th>Lower Body Clothes</th>
+                    <th>Underwear</th>
+                    <th>Other Stuff</th>
+                    <th>Total Price</th>
+                    <th>Order Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.upper_body_clothes }}</td>
+                        <td>{{ order.lower_body_clothes }}</td>
+                        <td>{{ order.underwear }}</td>
+                        <td>{{ order.other_stuff }}</td>
+                        <td>{{ order.total_price }}</td>
+                        <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>  <!-- Assuming you have a created_at field -->
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+</div>
+{% endblock %}
