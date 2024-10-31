@@ -6,7 +6,35 @@
     <h2>Register</h2>
     <form method="post" action="{% url 'users:register' %}">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <!-- Render username field -->
+        {{ form.username.label_tag }}
+        {{ form.username }}<br>
+        {{ form.username.errors }}
+
+        <!-- Render email field -->
+        {{ form.email.label_tag }}
+        {{ form.email }}<br>
+        {{ form.email.errors }}
+
+        <!-- Render password fields -->
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}<br>
+        {{ form.password1.errors }}
+
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}<br>
+        {{ form.password2.errors }}
+
+        <!-- Render user type selection -->
+        <div>
+            <p>User Type:</p>
+            {{ form.user_type.errors }}
+            {% for choice in form.user_type %}
+                <label>{{ choice.tag }} {{ choice.choice_label }}</label><br>
+            {% endfor %}
+        </div>
+
         <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
 </div>

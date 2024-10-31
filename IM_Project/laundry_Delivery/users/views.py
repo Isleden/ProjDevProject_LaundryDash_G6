@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect 
-from .models import Order
-from .forms import OrderForm,SignupForm, LoginForm
+from .models import Order, UserProfile
+from .forms import OrderForm, SignupForm, LoginForm
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, 'users/index.html')
@@ -9,8 +10,7 @@ def index(request):
 def about(request):
     return render(request, 'users/about.html')
 
-def home(request):  # Renamed from 'order' to 'home'
-
+def home(request):
     return render(request, 'users/home.html')
 
 def order(request):
@@ -18,7 +18,7 @@ def order(request):
         form = OrderForm(request.POST)
         if form.is_valid():
             form.save()  # Save the order
-            return redirect('users:home')  # Redirect to home or another page
+            return redirect('users:home')
     else:
         form = OrderForm()
     return render(request, 'users/order.html', {'form': form})
@@ -35,7 +35,7 @@ def signup_view(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('users:main')
+            return redirect('users:login')  # Redirect to login page after signup
     else:
         form = SignupForm()
     return render(request, 'users/register.html', {'form': form})
@@ -46,10 +46,25 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('users:main')
+            # Check user type and redirect accordingly
+            user_profile = UserProfile.objects.get(user=user)
+            if user_profile.user_type == 'driver':
+                return redirect('users:driver_dashboard')
+            else:
+                return redirect('users:customer_dashboard')
     else:
         form = LoginForm()
     return render(request, 'users/login.html', {'form': form})
+
+@login_required
+def driver_dashboard(request):
+    # Placeholder for the driver's dashboard
+    return render(request, 'users/driver_dashboard.html')
+
+@login_required
+def customer_dashboard(request):
+    # Placeholder for the customer's dashboard
+    return render(request, 'users/customer_dashboard.html')
 
 def order_submit(request):
     if request.method == 'POST':
@@ -73,7 +88,7 @@ def order_submit(request):
 
         # Create and save a new Order instance
         order = Order(
-            user=request.user,  # Make sure to assign the current user
+            user=request.user,
             upper_body_clothes=upper_body_clothes,
             lower_body_clothes=lower_body_clothes,
             underwear=underwear,
