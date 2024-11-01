@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bulk Discount</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .title {
+            color: #f985d2;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .intro {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .section h2 {
+            color: #f985d2;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .steps, .benefits {
+            list-style: none;
+            padding: 0;
+            color: #555;
+            margin: 20px 0;
+        }
+
+        .steps li, .benefits li {
+            margin: 10px 0;
+            font-size: 16px;
+            line-height: 1.5;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 5px solid #f985d2;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .steps li:hover, .benefits li:hover {
+            background-color: #f2f2f2;
+        }
+
+        .steps li strong, .benefits li strong {
+            color: #333;
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .cta {
+            margin-top: 40px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .cta .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #f985d2;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 18px;
+        }
+
+        .cta .btn:hover {
+            background-color: #e874b5;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+                margin: 20px;
+            }
+
+            .title {
+                font-size: 28px;
+            }
+
+            .intro, .steps li, .benefits li {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <section class="bulk-discount">
+                <h2 class="title">Save More with Our Bulk Discounts!</h2>
+                <p class="intro">At LaundryDash, we believe in rewarding our loyal customers! Enjoy significant savings when you choose our bulk laundry services. Whether you're a busy household, a small business, or just looking to save on laundry, our bulk discount options are perfect for you.</p>
+            
+                <h3>How It Works:</h3>
+                <ol class="steps">
+                    <li><strong>Choose Your Package:</strong> Select from our range of bulk packages tailored to your needs.</li>
+                    <li><strong>Schedule Your Pickup:</strong> Book a convenient time for us to collect your laundry.</li>
+                    <li><strong>Enjoy Your Savings:</strong> Benefit from discounted rates on your bulk laundry service!</li>
+                </ol>
+            
+                <h3>Discount Tiers:</h3>
+                <ul class="benefits">
+                    <li><strong>5-10 Bags:</strong> Get 10% off your total order.</li>
+                    <li><strong>11-20 Bags:</strong> Enjoy 15% off your total order.</li>
+                    <li><strong>21 Bags and Above:</strong> Receive 20% off your total order!</li>
+                </ul>
+            
+                <p>For custom packages or inquiries, feel free to contact us. Our team is here to help you find the best solution for your laundry needs!</p>
+            
+                <a href="{% url 'book_pickup' %}" class="cta btn">Book Your Bulk Service Now</a>
+                 <!-- Back to Home Button -->
+        <a href="{% url 'home' %}" class="home-btn">Back to Home</a>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

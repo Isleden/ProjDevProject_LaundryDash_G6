@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Laundry Dash</title>
+    <style>
+        /* General Body Styling */
+        body { 
+            font-family: 'Arial', sans-serif; 
+            margin: 0; 
+            background-color: #f4f6f9; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+
+        /* Profile Container */
+        .profile-container { 
+            background-color: #ffffff; 
+            width: 90%; 
+            max-width: 700px; 
+            margin: 20px; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+        }
+
+        /* Profile Header Styling */
+        .profile-header { 
+            text-align: center; 
+            padding-bottom: 20px; 
+            border-bottom: 1px solid #e0e0e0; 
+        }
+        .profile-header h1 { 
+            margin: 10px 0; 
+            font-size: 28px; 
+            color: #2b3a42; 
+        }
+        .profile-header p { 
+            color: #757575; 
+            font-size: 14px; 
+        }
+
+        /* Section Titles */
+        h2 { 
+            color: #4CAF50; 
+            font-size: 20px; 
+            margin-top: 20px; 
+            border-left: 4px solid #4CAF50; 
+            padding-left: 8px; 
+        }
+
+        /* Content Sections */
+        .profile-details, .preferred-services, .order-history, .reviews { 
+            margin-top: 20px; 
+            color: #424242; 
+            line-height: 1.6; 
+        }
+
+        /* List Styling */
+        .preferred-services ul { 
+            padding: 0; 
+            list-style-type: none; 
+        }
+        .preferred-services li::before { 
+            content: "✔"; 
+            color: #4CAF50; 
+            padding-right: 8px; 
+        }
+
+        /* Order History Styling */
+        .order-item { 
+            background-color: #f8f9fa; 
+            padding: 15px; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 5px; 
+            margin-bottom: 10px; 
+        }
+        .order-item p { 
+            margin: 5px 0; 
+        }
+
+        /* Reviews Styling */
+        .review { 
+            font-style: italic; 
+            color: #607d8b; 
+            border-left: 4px solid #4CAF50; 
+            padding-left: 10px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>Claire Andrea's Profile</h1>
+            <p><strong>Member Since:</strong> January 2024</p>
+            <p><strong>Loyalty Level:</strong> Gold Member</p>
+        </div>
+
+        <div class="profile-details">
+            <h2>About Me</h2>
+            <p>Hi! I'm Claire, a busy professional who counts on Laundry Dash to keep my clothes fresh and ready for any occasion. Laundry Dash is my go-to for reliable, fast, and eco-friendly laundry services, saving me time and hassle with each order.</p>
+        </div>
+
+        <div class="preferred-services">
+            <h2>Preferred Services</h2>
+            <ul>
+                <li><strong>Wash & Fold:</strong> Perfect for everyday laundry—quick, easy, and ready to put away.</li>
+                <li><strong>Express Service:</strong> For those last-minute needs, I can always count on the express option.</li>
+            </ul>
+        </div>
+
+        <div class="order-history">
+            <h2>Recent Orders</h2>
+            <div class="order-item">
+                <p><strong>Date:</strong> October 20, 2024</p>
+                <p><strong>Service:</strong> Wash & Fold</p>
+                <p><strong>Status:</strong> Completed</p>
+            </div>
+            <div class="order-item">
+                <p><strong>Date:</strong> September 30, 2024</p>
+                <p><strong>Service:</strong> Dry Cleaning (Blazers & Dresses)</p>
+                <p><strong>Status:</strong> Ready for Pickup</p>
+            </div>
+        </div>
+
+        <div class="reviews">
+            <h2>Reviews</h2>
+            <p class="review">"Laundry Dash always delivers high-quality service with a smile. A real lifesaver for busy days!"</p>
+            <a href="{% url 'home' %}" class="home-btn">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

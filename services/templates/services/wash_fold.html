@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Laundry Pickup Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .title {
+            color: #f985d2;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .section {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .section h2 {
+            color: #f985d2;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .steps, .benefits {
+            list-style: none;
+            padding: 0;
+            color: #555;
+        }
+
+        .steps li, .benefits li {
+            margin: 10px 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .steps li strong, .benefits li strong {
+            color: #333;
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .cta {
+            margin-top: 40px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .cta .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #f985d2;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .cta .btn:hover {
+            background-color: #e874b5;
+            transform: scale(1.05); /* Slight scaling effect */
+        }
+
+        .home-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #e874b5; /* Green background */
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .home-btn:hover {
+            background-color: #e874b5; /* Darker green on hover */
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+                margin: 20px;
+            }
+
+            .title {
+                font-size: 28px;
+            }
+
+            .intro, .steps li, .benefits li {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Wash and Fold Service</h1>
+    
+
+        <p class="intro">Say Goodbye to Laundry Hassles!<br>
+        Our Laundry Pickup Service makes it easier than ever to keep your clothes fresh and clean without lifting a finger. Simply schedule a pickup, and we’ll handle the rest!</p>
+        
+        <div class="section">
+            <h2>How It Works:</h2>
+            <ul class="steps">
+                <li><strong>Schedule Your Pickup</strong> – Choose a time that works best for you.</li>
+                <li><strong>Pack Your Laundry</strong> – Gather up all the clothes you want cleaned.</li>
+                <li><strong>Pickup & Cleaning</strong> – Our team will pick up your laundry and handle all the washing, drying, and folding with care.</li>
+                <li><strong>Delivery</strong> – We bring your freshly cleaned clothes back to you, ready to wear!</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Why Choose Us?</h2>
+            <ul class="benefits">
+                <li><strong>Convenience:</strong> No more trips to the laundromat.</li>
+                <li><strong>Professional Care:</strong> Your clothes are handled by experienced staff.</li>
+                <li><strong>Flexible Scheduling:</strong> Pickup and delivery times that fit your schedule.</li>
+                <li><strong>Eco-Friendly Products:</strong> Safe and sustainable cleaning solutions for your clothes and the planet.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Perfect for Busy Lifestyles!</h2>
+            <p class="description">
+                Whether you're a busy professional, a parent, or just need a break from chores, our Laundry Pickup Service gives you more time to do the things you love.
+            </p>
+        </div>
+
+        <div class="cta">
+            <p>Experience the ultimate convenience of laundry done right.</p>
+            <a href="{% url 'book_pickup' %}" class="btn">Book Your First Pickup Today!</a>
+            <!-- Back to Home Button -->
+        <a href="{% url 'home' %}" class="home-btn">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
