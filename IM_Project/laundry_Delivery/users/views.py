@@ -51,7 +51,7 @@ def login_view(request):
             if user_profile.user_type == 'driver':
                 return redirect('users:driver_dashboard')
             else:
-                return redirect('users:customer_dashboard')
+                return redirect('users:main')
     else:
         form = LoginForm()
     return render(request, 'users/login.html', {'form': form})
@@ -64,7 +64,7 @@ def driver_dashboard(request):
 @login_required
 def customer_dashboard(request):
     # Placeholder for the customer's dashboard
-    return render(request, 'users/customer_dashboard.html')
+    return render(request, 'users/ord-history.html')
 
 def order_submit(request):
     if request.method == 'POST':
