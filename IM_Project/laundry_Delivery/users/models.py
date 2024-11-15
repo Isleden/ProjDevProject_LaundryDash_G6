@@ -41,6 +41,17 @@ class Business(models.Model):
         return f"Business: {self.business_name} (Owner: {self.user_profile.user.username})"
 
 class Order(models.Model):
+    STATUS_CHOICES = [
+        ('looking_for_driver', 'Looking for Driver'),
+        ('driver_on_the_way_to_pickup', 'Driver on the way to pickup'),
+        ('driver_on_the_way_to_laundry', 'Driver on the way to laundry'),
+        ('laundry_received', 'Laundry received'),
+        ('laundry_cleaning', 'Laundry cleaning'),
+        ('driver_on_the_way_to_customer', 'Driver on the way to customer'),
+        ('delivered', 'Delivered'),
+        ('finished', 'Finished'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     upper_body_clothes = models.IntegerField(default=0)
     lower_body_clothes = models.IntegerField(default=0)
@@ -49,6 +60,7 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     created_at = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='looking_for_driver')
 
     def __str__(self):
         return f"Order {self.id} - Total Price: {self.total_price}"

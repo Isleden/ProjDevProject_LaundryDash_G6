@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 app_name = 'users'
 
@@ -15,5 +18,10 @@ urlpatterns = [
     path('driver_dashboard', views.driver_dashboard, name='driver_dashboard'), 
     path('add-business/', views.add_business, name='add_business'),
     path('business_dashboard', views.business_dashboard, name='business_dashboard'), 
-
+    path('delete-business/<int:business_id>/', views.delete_business, name='delete_business'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('order/update-status/<int:order_id>/', views.update_order_status, name='update_order_status'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

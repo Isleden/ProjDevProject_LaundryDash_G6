@@ -1,4 +1,4 @@
-{% extends 'users/base.html' %}
+{% extends 'users/baseCustomer.html' %}
 {% load static %}
 {% block title %}Home{% endblock %}
 
@@ -45,36 +45,59 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
+    <div class="container mt-4">
+        <h2>Your Current Order</h2>
+        
+        {% if current_order %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Order #{{ current_order.id }}</h5>
+                    <p><strong>Status:</strong> {{ current_order.get_status_display }}</p>
+                    <p><strong>Total Price:</strong> ${{ current_order.total_price }}</p>
+                    <p><strong>Items:</strong> {{ current_order.upper_body_clothes }} upper body, 
+                        {{ current_order.lower_body_clothes }} lower body, 
+                        {{ current_order.underwear }} underwear, 
+                        {{ current_order.other_stuff }} other items.</p>
+    
+                    {% if current_order.status != 'finished' %}
+                        <a href="{% url 'users:update_order_status' current_order.id %}" class="btn btn-primary">Update Order Status</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <p>You don't have any active orders.</p>
+        {% endif %}
+    </div>
     <h2 class="title">There's something for everyone!</h2>
     <div class="row text-center mt-4">
-
-        <div class="col">
-            <img src="https://scontent.fceb3-1.fna.fbcdn.net/v/t39.30808-6/358646773_676216367854247_5418047120878472550_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF-o5T9V2XC4Do6-OeOX6jozei3fdkRT6_N6Ld92RFPr3ykKqBWrmoTICTeKXyjA1Eyvc6lZdK5C08wSyQJhnLh&_nc_ohc=SyACm9NlQBEQ7kNvgHJXtNF&_nc_zt=23&_nc_ht=scontent.fceb3-1.fna&_nc_gid=A975SpDhA7GGA96MEyGa17X&oh=00_AYCqnAW0BqgQ4VgcAmXSnMz7ZWKxoZ9mwHwkiHD5MRNs2g&oe=672504C2" alt="Laundry Shop" class="laundry-shop-image">
-            <h4>Cebu Coin Laundry Express</h4>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal">Order Now</button>
-        </div>
-
-        <div class="col">
-            <img src="https://lh5.googleusercontent.com/p/AF1QipOdM2U0bbheO3M4Z398zOeu59cFWPpLOdepjvaB=w231-h165-n-k-no-nu" alt="Laundry Shop" class="laundry-shop-image">
-            <h4>Wash & Chill Laundry</h4>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal">Order Now</button>
-        </div>
-
-        <div class="col">
-            <img src="https://scontent.fceb3-1.fna.fbcdn.net/v/t39.30808-6/306124586_492007956268892_385465270050084673_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGKFAPkO8VhlKBiqAdarzYJA21Qa8zaX5cDbVBrzNpfl6VI1cbH1WzY727v7pZQyUlVxn5K5DmGW0Y_hio7OcZr&_nc_ohc=kZQs0RrSZpcQ7kNvgHoWZIk&_nc_zt=23&_nc_ht=scontent.fceb3-1.fna&_nc_gid=AMJOi5DM2WtVUGiNwyGp9ti&oh=00_AYBRsCIKiV9GXC6-mWkc8uEXzpu0B2rFmxi-duoL5nV-pw&oe=67251FA8" alt="Laundry Shop" class="laundry-shop-image">
-            <h4>LAB's Laundry Care</h4>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal">Order Now</button>
-        </div>
-
-        <div class="col">
-            <img src="https://scontent.fceb3-1.fna.fbcdn.net/v/t39.30808-6/305753785_495204592611465_6487599467271090182_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeETbh2_eFw3aNRB87TBuD2TSZundnjiOYNJm6d2eOI5gzW7CI5LIqYzIr-0oRrzcKoB3_M1O6qFpdZ9LpK8fJxt&_nc_ohc=vEocIOZtpuIQ7kNvgF5HCaP&_nc_zt=23&_nc_ht=scontent.fceb3-1.fna&_nc_gid=AuYVF6oby42LqxOUoZQClOm&oh=00_AYAoqmjS6mJEoDcDOY5CHiqooJfrTJUrvkrdOfsZo0tHOg&oe=67252021" alt="Laundry Shop" class="laundry-shop-image">
-            <h4>Wash Me Clean Laundry</h4>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal">Order Now</button>
-        </div>
-        
+        {% if businesses %}
+            {% for business in businesses %}
+                <div class="col">
+                    <!-- Display Business Logo if available -->
+                    {% if business.logo %}
+                        <img src="{{ business.logo.url }}" alt="{{ business.business_name }} Logo" class="laundry-shop-image">
+                    {% else %}
+                        <img src="{% static 'users/images/default-logo.png' %}" alt="Default Logo" class="laundry-shop-image">
+                    {% endif %}
+                    <!-- Display Business Name -->
+                    <h4>{{ business.business_name }}</h4>
+                    <!-- Display Business Description -->
+                    <p>{{ business.business_description }}</p>
+                    <!-- Display Business Address -->
+                    <p><strong>Address:</strong> {{ business.business_address }}</p>
+                    
+                    <!-- Button to trigger Modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal" 
+                        data-business-id="{{ business.id }}" data-business-name="{{ business.business_name }}">
+                        Order Now
+                    </button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No businesses available at the moment.</p>
+        {% endif %}
     </div>
-
+    
     <!-- Modal for Order Form -->
     <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -89,6 +112,9 @@
                     <form method="post" action="{% url 'users:order_submit' %}">  <!-- Updated action -->
                         <h4 class="title">Order Form</h4>
                         {% csrf_token %}
+                        <!-- Hidden Input for Business ID -->
+                        <input type="hidden" id="business_id" name="business_id" value="">
+                        
                         <div class="form-group">
                             <label for="upper_body_clothes">Upper Body Clothes:</label>
                             <input type="number" class="form-control" id="upper_body_clothes" name="upper_body_clothes" min="0" required>
@@ -108,7 +134,6 @@
                         <div class="form-group">
                             <label for="total_price">Total Price:</label>
                             <input type="text" class="form-control" id="total_price" name="total_price" readonly>
-
                         </div>
                         <button type="submit" class="btn btn-primary">Submit Order</button>
                     </form>
@@ -117,6 +142,15 @@
         </div>
     </div>
     
+    <script>
+        $('#orderModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var businessId = button.data('business-id'); // Extract the business ID
+            var businessName = button.data('business-name'); // Extract the business name (optional, can be used for UI)
     
+            var modal = $(this);
+            modal.find('#business_id').val(businessId); // Set the business ID in the hidden input
+        });
+    </script>
 
 {% endblock %}

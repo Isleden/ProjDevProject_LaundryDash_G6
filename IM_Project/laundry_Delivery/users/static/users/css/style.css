@@ -131,3 +131,53 @@
 .something-text {
     
 }
+
+.card {
+    border-radius: 8px;
+    overflow: hidden;
+}
+.card-body {
+    padding: 20px;
+}
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.card-text {
+    font-size: 1rem;
+}
+.btn {
+    padding: 10px 20px;
+}
+.btn-sm {
+    padding: 5px 15px;
+}
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}
+.table {
+    border-collapse: collapse;
+}
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+.table th {
+    background-color: #f8f9fa;
+}
+.shadow-sm {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+.text-muted {
+    font-style: italic;
+}
+.container {
+    max-width: 1200px;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

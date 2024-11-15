@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    {% block extra_styles %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-danger navbar-dark">
+        <!-- Logo as a button leading to index.html -->
+        <a class="navbar-brand" href="{% url 'users:home' %}">
+            <img src="https://img.icons8.com/?size=50&id=8472&format=png&color=000000" class="logo"/>       
+        </a>
+        
+        <!-- Navbar Links -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'users:main' %}">Home</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'users:about' %}">About</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'users:ord-history' %}">Order History</a>
+            </li>
+        </ul>
+
+        <!-- Log In Button on the Right -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-light" href="{% url 'users:login' %}">Log In</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div>
+        {% block content %}{% endblock %}
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
