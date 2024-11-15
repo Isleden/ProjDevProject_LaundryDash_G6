@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect 
-from .models import Order, UserProfile
-from .forms import OrderForm, SignupForm, LoginForm
+from .models import Order, UserProfile, Business
+from .forms import OrderForm, SignupForm, LoginForm, BusinessForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
@@ -50,6 +50,8 @@ def login_view(request):
             user_profile = UserProfile.objects.get(user=user)
             if user_profile.user_type == 'driver':
                 return redirect('users:driver_dashboard')
+            if user_profile.user_type == 'business':
+                return redirect('users:business_dashboard')
             else:
                 return redirect('users:main')
     else:
@@ -66,6 +68,25 @@ def customer_dashboard(request):
     # Placeholder for the customer's dashboard
     return render(request, 'users/ord-history.html')
 
+
+@login_required
+def add_business(request):
+    if request.method == 'POST':
+        form = BusinessForm(request.POST, request.FILES)
+        if form.is_valid():
+            business = form.save(commit=False)
+            business.user_profile = UserProfile.objects.get(user=request.user)
+            business.save()
+            return redirect('business_list')  # Replace with your business list view or another URL
+    else:
+        form = BusinessForm()
+    return render(request, 'users/add_business.html', {'form': form})
+
+@login_required
+def business_dashboard(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    businesses = Business.objects.filter(user_profile=user_profile)
+    return render(request, 'users/business_dashboard.html', {'businesses': businesses})
 def order_submit(request):
     if request.method == 'POST':
         # Extract data from the form

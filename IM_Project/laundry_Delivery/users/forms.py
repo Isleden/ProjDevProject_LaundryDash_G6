@@ -1,6 +1,6 @@
 # forms.py
 from django import forms
-from .models import Order, UserProfile
+from .models import Order, UserProfile, Customer, Driver, Business
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -33,3 +33,19 @@ class SignupForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['address', 'phone_number']
+
+class DriverForm(forms.ModelForm):
+    class Meta:
+        model = Driver
+        fields = ['vehicle_details', 'license_number']
+
+class BusinessForm(forms.ModelForm):
+    class Meta:
+        model = Business
+        fields = ['business_name', 'business_address', 'logo']

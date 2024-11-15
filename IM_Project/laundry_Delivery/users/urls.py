@@ -13,5 +13,7 @@ urlpatterns = [
     path('ord-history', views.ord_history, name='ord-history'),  
     path('order/submit/', views.order_submit, name='order_submit'),  # Added this line for order_submit
     path('driver_dashboard', views.driver_dashboard, name='driver_dashboard'), 
+    path('add-business/', views.add_business, name='add_business'),
+    path('business_dashboard', views.business_dashboard, name='business_dashboard'), 
 
 ]

@@ -1,0 +1,36 @@
+{% extends 'users/baseBusiness.html' %}
+
+{% block title %}Business Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">My Businesses</h1>
+    
+    <!-- Button to Add a New Business -->
+    <a href="{% url 'users:add_business' %}" class="btn btn-success mb-4">Add New Business</a>
+    
+    <!-- List of Businesses -->
+    {% if businesses %}
+        <div class="row">
+            {% for business in businesses %}
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        {% if business.logo %}
+                            <img src="{{ business.logo.url }}" class="card-img-top" alt="Logo">
+                        {% else %}
+                            <img src= class="card-img-top" alt="Default Logo">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ business.business_name }}</h5>
+                            <p class="card-text">{{ business.business_address }}</p>
+                            <a href="#" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">You haven't added any businesses yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
