@@ -8,6 +8,7 @@ class UserProfile(models.Model):
     USER_TYPE_CHOICES = [
         ('customer', 'Customer'),
         ('driver', 'Driver'),
+        ('business', 'Business'),
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='customer')
