@@ -2,13 +2,55 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .login-container form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .login-container button {
+        margin-top: 10px;
+    }
+
+    .login-container p {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    .login-container p a {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .login-container p a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="login-container">
     <h2>Login</h2>
     <form method="post" action="{% url 'users:login' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
-    <p class="mt-3">Don't have an account? <a href="{% url 'users:register' %}">Register here</a>.</p>
+    <p>Don't have an account? <a href="{% url 'users:register' %}">Register here</a>.</p>
 </div>
 {% endblock %}

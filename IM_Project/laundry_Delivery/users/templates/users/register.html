@@ -2,40 +2,111 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<style>
+    .register-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .register-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .register-container form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .register-container input[type="text"],
+    .register-container input[type="email"],
+    .register-container input[type="password"],
+    .register-container select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .register-container button {
+        margin-top: 10px;
+        padding: 10px;
+    }
+
+    .register-container p {
+        margin-top: 15px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .register-container p a {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .register-container p a:hover {
+        text-decoration: underline;
+    }
+
+    .register-container .form-group {
+        margin-bottom: 15px;
+    }
+
+    .register-container .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+</style>
+
+<div class="register-container">
     <h2>Register</h2>
     <form method="post" action="{% url 'users:register' %}">
         {% csrf_token %}
-        
-        <!-- Render username field -->
-        {{ form.username.label_tag }}
-        {{ form.username }}<br>
-        {{ form.username.errors }}
 
-        <!-- Render email field -->
-        {{ form.email.label_tag }}
-        {{ form.email }}<br>
-        {{ form.email.errors }}
+        <div class="form-group">
+            <label for="id_username">Username</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+        </div>
 
-        <!-- Render password fields -->
-        {{ form.password1.label_tag }}
-        {{ form.password1 }}<br>
-        {{ form.password1.errors }}
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
 
-        {{ form.password2.label_tag }}
-        {{ form.password2 }}<br>
-        {{ form.password2.errors }}
+        <div class="form-group">
+            <label for="id_password1">Password</label>
+            {{ form.password1 }}
+            {{ form.password1.errors }}
+        </div>
 
-        <!-- Render user type selection -->
-        <div>
-            <p>User Type:</p>
+        <div class="form-group">
+            <label for="id_password2">Confirm Password</label>
+            {{ form.password2 }}
+            {{ form.password2.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>User Type</label>
             {{ form.user_type.errors }}
             {% for choice in form.user_type %}
-                <label>{{ choice.tag }} {{ choice.choice_label }}</label><br>
+                <div>
+                    {{ choice.tag }} {{ choice.choice_label }}
+                </div>
             {% endfor %}
         </div>
 
         <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
+    <p>Already have an account? <a href="{% url 'users:login' %}">Login here</a>.</p>
 </div>
 {% endblock %}
