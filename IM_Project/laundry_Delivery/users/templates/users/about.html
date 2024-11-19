@@ -1,3 +1,63 @@
 {% extends 'users/base.html' %}
 
 {% block title %}About Us{% endblock %}
+
+{% block content %}
+<div style="font-family: 'Roboto', sans-serif; margin: 20px auto; max-width: 1200px; padding: 40px; background-color: #f9fafb; border-radius: 16px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);">
+    <header style="text-align: center; margin-bottom: 50px;">
+        <h1 style="color: #1f2937; font-size: 3rem; font-weight: bold; margin-bottom: 10px;">About Us</h1>
+        <p style="color: #6b7280; font-size: 1.25rem; max-width: 800px; margin: 0 auto;">
+            Learn more about who we are, what we stand for, and how we bring convenience to your laundry needs.
+        </p>
+    </header>
+
+    <section style="display: flex; align-items: center; gap: 20px; margin-bottom: 50px;">
+        <div style="flex: 1;">
+            <img src="static/images/about-history.png" alt="Our History" style="width: 100%; border-radius: 12px;">
+        </div>
+        <div style="flex: 2;">
+            <h2 style="color: #3b82f6; font-size: 1.75rem; font-weight: bold; margin-bottom: 15px;">Our History</h2>
+            <p style="color: #374151; line-height: 1.8; text-align: justify; font-size: 1rem; margin-bottom: 15px;">
+                Founded in 2024, <strong>LaundryDash</strong> began with a vision to provide top-quality laundry and dry cleaning services. 
+                Over the years, we’ve grown into a trusted name, offering convenience and reliability to thousands of happy customers.
+            </p>
+            <p style="color: #374151; line-height: 1.8; text-align: justify; font-size: 1rem;">
+                At <strong>LaundryDash</strong>, we’re about more than just laundry — we’re about making lives easier.
+            </p>
+        </div>
+    </section>
+
+    <section style="margin-bottom: 50px;">
+        <h2 style="color: #3b82f6; font-size: 1.75rem; font-weight: bold; margin-bottom: 15px; text-align: center;">Our Vision</h2>
+        <p style="color: #374151; line-height: 1.8; text-align: center; font-size: 1rem; max-width: 800px; margin: 0 auto;">
+            To become the premier laundry delivery and dry cleaning service in <em>[Location]</em>, recognized for our innovative solutions, 
+            exceptional service, and commitment to sustainability.
+        </p>
+    </section>
+
+    <section style="display: flex; align-items: center; gap: 20px; margin-bottom: 50px; flex-direction: row-reverse;">
+        <div style="flex: 1;">
+            <img src="static/images/our-mission.png" alt="Our Mission" style="width: 100%; border-radius: 12px;">
+        </div>
+        <div style="flex: 2;">
+            <h2 style="color: #3b82f6; font-size: 1.75rem; font-weight: bold; margin-bottom: 15px;">Our Mission</h2>
+            <ul style="color: #374151; line-height: 1.8; font-size: 1rem; padding-left: 20px; list-style-type: disc;">
+                <li style="margin-bottom: 10px;">Delivering high-quality laundry services with eco-friendly practices.</li>
+                <li style="margin-bottom: 10px;">Supporting the community by providing jobs and contributing to a greener future.</li>
+                <li style="margin-bottom: 10px;">Building lasting relationships with our customers.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section style="text-align: center;">
+        <h2 style="color: #3b82f6; font-size: 1.75rem; font-weight: bold; margin-bottom: 15px;">Contact Us</h2>
+        <p style="color: #374151; font-size: 1rem;">
+            Need laundry done? Call us at <strong style="color: #3b82f6;">09451402099</strong> or schedule a pickup online. 
+        </p>
+        <p>
+            <a href="#" style="color: #3b82f6; text-decoration: underline; font-weight: bold;">View Pricing</a> | 
+            <a href="#" style="color: #3b82f6; text-decoration: underline; font-weight: bold;">Our Branches</a>
+        </p>
+    </section>
+</div>
+{% endblock %}
