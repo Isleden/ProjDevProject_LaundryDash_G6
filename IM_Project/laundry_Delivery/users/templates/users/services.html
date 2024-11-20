@@ -1,0 +1,159 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Our Services{% endblock %}
+
+{% block content %}
+<style>
+    .services-section {
+        background-color: #f8f9fa;
+        padding: 50px 0;
+    }
+
+    .services-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .services-description {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 40px;
+    }
+
+    .service-card {
+        border: none;
+        transition: transform 0.3s, box-shadow 0.3s ease;
+        background: #fff;
+        border-radius: 10px;
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .service-card img {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        transition: transform 0.3s;
+    }
+
+    .service-card img:hover {
+        transform: scale(1.05);
+    }
+
+    .service-card .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #333;
+        margin-top: 15px;
+    }
+
+    .service-card .card-text {
+        font-size: 0.95rem;
+        color: #666;
+    }
+
+    @media (max-width: 768px) {
+        .services-title {
+            font-size: 2rem;
+        }
+
+        .services-description {
+            font-size: 0.95rem;
+        }
+    }
+</style>
+
+<div class="services-section text-center">
+    <div class="container">
+        <h1 class="services-title">We Know How To Make Laundry A Breeze</h1>
+        <p class="services-description">
+            Explore our range of services designed to take care of your laundry with ease and perfection. From machine washing to dry cleaning, we ensure your clothes look and feel their best.
+        </p>
+
+        <div class="row">
+            <!-- Service 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Machine Wash">
+                    <div class="card-body">
+                        <h5 class="card-title">Machine Wash</h5>
+                        <p class="card-text">
+                            Our advanced machine washing service keeps your clothes clean and cared for with precision.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Hand Wash">
+                    <div class="card-body">
+                        <h5 class="card-title">Hand Wash</h5>
+                        <p class="card-text">
+                            Ideal for delicate fabrics, our hand wash service offers meticulous care for your treasured items.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Dry Cleaning">
+                    <div class="card-body">
+                        <h5 class="card-title">Dry Cleaning</h5>
+                        <p class="card-text">
+                            Preserve your garments' quality with our professional dry cleaning service.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Service 4 -->
+            <div class="col-md-4 mb-4">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Ironing">
+                    <div class="card-body">
+                        <h5 class="card-title">Ironing</h5>
+                        <p class="card-text">
+                            Get crisp, wrinkle-free clothes with our professional ironing service.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="col-md-4 mb-4">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Folding">
+                    <div class="card-body">
+                        <h5 class="card-title">Folding</h5>
+                        <p class="card-text">
+                            Neatly folded clothes ready to store with our expert folding service.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="col-md-4 mb-4">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Stain Removal">
+                    <div class="card-body">
+                        <h5 class="card-title">Stain Removal</h5>
+                        <p class="card-text">
+                            Remove even the toughest stains while preserving your fabric's quality.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

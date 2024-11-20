@@ -10,6 +10,8 @@ def index(request):
 def about(request):
     return render(request, 'users/about.html')
 
+def services(request):
+    return render(request, 'users/services.html')
 def home(request):
     businesses = Business.objects.all()  # Adjust the query if needed, e.g., filter based on owner or other criteria
     return render(request, 'users/home.html', {'businesses': businesses})

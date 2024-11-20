@@ -9,6 +9,7 @@ app_name = 'users'
 urlpatterns = [
     path('home', views.index, name = 'home'),
     path('about', views.about, name='about'),
+    path('services', views.services, name="services"),
     path('main',views.home, name = 'main'),
     path('order',views.order, name = 'order'),
     path('login', views.login_view, name='login'),
