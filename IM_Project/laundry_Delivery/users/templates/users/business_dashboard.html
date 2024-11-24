@@ -39,9 +39,7 @@
 <div class="container mt-4">
     <h1 class="mb-4">My Business Orders</h1>
     
-    <!-- Button to Add a New Business -->
-    <a href="{% url 'users:add_business' %}" class="btn btn-success mb-4">Add New Business</a>
-    
+  
     <!-- List of Orders for this Business -->
     {% if orders %}
         <table class="table table-striped">

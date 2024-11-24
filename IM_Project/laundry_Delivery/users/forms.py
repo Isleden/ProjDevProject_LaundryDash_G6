@@ -27,7 +27,16 @@ class SignupForm(UserCreationForm):
         if commit:
             user.save()
             # Create UserProfile with selected user type
-            UserProfile.objects.create(user=user, user_type=self.cleaned_data['user_type'])
+            user_profile = UserProfile.objects.create(user=user, user_type=self.cleaned_data['user_type'])
+            
+            # Create the corresponding model instance based on user type
+            if self.cleaned_data['user_type'] == 'customer':
+                Customer.objects.create(user_profile=user_profile)
+            elif self.cleaned_data['user_type'] == 'driver':
+                Driver.objects.create(user_profile=user_profile)
+            elif self.cleaned_data['user_type'] == 'business':
+                Business.objects.create(user_profile=user_profile)
+        
         return user
 
 class LoginForm(AuthenticationForm):
