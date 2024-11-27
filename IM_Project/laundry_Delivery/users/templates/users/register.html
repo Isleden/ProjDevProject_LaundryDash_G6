@@ -139,6 +139,20 @@
             </div>
         </div>
 
+        <div id="driver-fields" style="display: none;">
+            <div class="form-group">
+                <label for="id_vehicle_details">Vehicle Details</label>
+                {{ form.vehicle_details }}
+                {{ form.vehicle_details.errors }}
+            </div>
+        
+            <div class="form-group">
+                <label for="id_license_number">License Number</label>
+                {{ form.license_number }}
+                {{ form.license_number.errors }}
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
     <p>Already have an account? <a href="{% url 'users:login' %}">Login here</a>.</p>
@@ -149,18 +163,20 @@
         const userTypeRadios = document.querySelectorAll('input[name="user_type"]');
         const customerFields = document.getElementById('customer-fields');
         const businessFields = document.getElementById('business-fields');
+        const driverFields = document.getElementById('driver-fields');
 
         function toggleFields() {
             const selectedType = document.querySelector('input[name="user_type"]:checked').value;
             customerFields.style.display = (selectedType === 'customer') ? 'block' : 'none';
             businessFields.style.display = (selectedType === 'business') ? 'block' : 'none';
+            driverFields.style.display = (selectedType === 'driver') ? 'block' : 'none';
         }
 
         userTypeRadios.forEach(radio => {
             radio.addEventListener('change', toggleFields);
         });
 
-        toggleFields(); // Initialize on load
+        toggleFields(); 
     });
 </script>
 

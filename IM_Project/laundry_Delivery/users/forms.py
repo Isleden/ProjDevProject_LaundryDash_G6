@@ -27,6 +27,10 @@ class SignupForm(UserCreationForm):
     business_address = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3}))
     logo = forms.ImageField(required=False)
 
+    # Driver fields
+    vehicle_details = forms.CharField(required=False, max_length=100)
+    license_number = forms.CharField(required=False, max_length=50)
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
@@ -46,6 +50,12 @@ class SignupForm(UserCreationForm):
                 self.add_error('business_name', 'Business name is required.')
             if not cleaned_data.get('business_address'):
                 self.add_error('business_address', 'Business address is required.')
+
+        elif user_type == 'driver':
+            if not cleaned_data.get('vehicle_details'):
+                self.add_error('vehicle_details', 'Vehicle details are required.')
+            if not cleaned_data.get('license_number'):
+                self.add_error('license_number', 'License number is required.')
                 
         return cleaned_data
 
@@ -65,7 +75,11 @@ class SignupForm(UserCreationForm):
                 )
 
             elif self.cleaned_data['user_type'] == 'driver':
-                Driver.objects.create(user_profile=user_profile)
+                Driver.objects.create(
+                    user_profile=user_profile,
+                    vehicle_details=self.cleaned_data['vehicle_details'],
+                    license_number=self.cleaned_data['license_number']
+                )
                 
             elif self.cleaned_data['user_type'] == 'business':
                 Business.objects.create(
