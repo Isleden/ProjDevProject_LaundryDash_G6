@@ -14,7 +14,7 @@ class SignupForm(UserCreationForm):
     USER_TYPE_CHOICES = [
         ('customer', 'Customer'),
         ('driver', 'Driver'),
-        ('business', 'Business'),
+        ('business', 'Business Owner'),
     ]
     user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES, widget=forms.RadioSelect)
 

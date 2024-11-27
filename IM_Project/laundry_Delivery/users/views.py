@@ -27,7 +27,7 @@ def order(request):
 
 def ord_history(request):
     if request.user.is_authenticated:
-        orders = Order.objects.filter(user=request.user)  # Filter orders for the logged-in user
+        orders = Order.objects.filter(user=request.user, status='finished')  # Filter orders for the logged-in user
     else:
         orders = []  # No orders if the user is not authenticated
     return render(request, 'users/ord-history.html', {'orders': orders})

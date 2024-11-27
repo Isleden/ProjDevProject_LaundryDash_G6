@@ -16,6 +16,7 @@
                     <th>Other Stuff</th>
                     <th>Total Price</th>
                     <th>Order Date</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +29,7 @@
                         <td>{{ order.other_stuff }}</td>
                         <td>{{ order.total_price }}</td>
                         <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>  <!-- Assuming you have a created_at field -->
+                        <td>{{ order.status }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
