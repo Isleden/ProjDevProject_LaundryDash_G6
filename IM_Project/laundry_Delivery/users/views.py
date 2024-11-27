@@ -142,7 +142,7 @@ def order_submit(request):
         order.save()
 
         # Redirect to the order history page
-        return redirect('users:ord-history')
+        return redirect('users:main')
 
     return render(request, 'home.html')  # Handle GET requests if necessary
 
