@@ -14,7 +14,10 @@ def services(request):
     return render(request, 'users/services.html')
 def home(request):
     businesses = Business.objects.all()  # Adjust the query if needed, e.g., filter based on owner or other criteria
-    return render(request, 'users/home.html', {'businesses': businesses})
+    user_orders = Order.objects.filter(user=request.user).exclude(status='finished').order_by('-order_date')
+
+    return render(request, 'users/home.html', {'businesses': businesses, 'orders': user_orders})
+
 def order(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)

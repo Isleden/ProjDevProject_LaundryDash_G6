@@ -46,27 +46,32 @@
         </a>
     </div>
     <div class="container mt-4">
-        <h2>Your Current Order</h2>
+        <h2>Your Orders</h2>
         
-        {% if current_order %}
-            <div class="card">
+        {% if orders %}
+        {% for order in orders %}
+            <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Order #{{ current_order.id }}</h5>
-                    <p><strong>Status:</strong> {{ current_order.get_status_display }}</p>
-                    <p><strong>Total Price:</strong> ${{ current_order.total_price }}</p>
-                    <p><strong>Items:</strong> {{ current_order.upper_body_clothes }} upper body, 
-                        {{ current_order.lower_body_clothes }} lower body, 
-                        {{ current_order.underwear }} underwear, 
-                        {{ current_order.other_stuff }} other items.</p>
-    
-                    {% if current_order.status != 'finished' %}
-                        <a href="{% url 'users:update_order_status' current_order.id %}" class="btn btn-primary">Update Order Status</a>
+                    <h5 class="card-title">Order #{{ order.id }}</h5>
+                    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+                    <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+                    <p><strong>Items:</strong> 
+                        {{ order.upper_body_clothes }} upper body, 
+                        {{ order.lower_body_clothes }} lower body, 
+                        {{ order.underwear }} underwear, 
+                        {{ order.other_stuff }} other items.
+                    </p>
+        
+                    {% if order.status != 'finished' %}
+                            <a href="{% url 'users:update_order_status' order.id %}" class="btn btn-primary">Update Order Status</a> 
                     {% endif %}
                 </div>
             </div>
-        {% else %}
-            <p>You don't have any active orders.</p>
-        {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>You don't have any active orders.</p>
+    {% endif %}
+    
     </div>
     <h2 class="title">There's something for everyone!</h2>
     <div class="row text-center mt-4">
