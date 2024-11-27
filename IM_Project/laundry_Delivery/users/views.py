@@ -5,7 +5,24 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
 def index(request):
-    return render(request, 'users/index.html')
+    if request.user.is_authenticated:
+        try:
+            user_profile = UserProfile.objects.get(user=request.user)
+
+            if user_profile.user_type == 'customer':
+                return redirect('users:main')  
+            elif user_profile.user_type == 'business':
+                return redirect('users:business_dashboard')  
+            elif user_profile.user_type == 'driver':
+                return redirect('users:driver_dashboard') 
+
+        except UserProfile.DoesNotExist:
+            # If no UserProfile is found for the authenticated user, handle this case
+            return render(request, 'users/index.html')
+
+    else:
+        # If the user is not authenticated, render the index page
+        return render(request, 'users/index.html')
 
 def about(request):
     return render(request, 'users/about.html')
@@ -110,6 +127,7 @@ def delete_business(request, business_id):
         # If business doesn't exist or the user is not the owner, redirect or show an error
         return redirect('users:business_dashboard')  # You can also render a custom error page here
 
+@login_required
 def order_submit(request):
     if request.method == 'POST':
         # Extract data from the form
@@ -146,6 +164,7 @@ def order_submit(request):
 
     return render(request, 'home.html')  # Handle GET requests if necessary
 
+@login_required
 def customer_dashboard(request):
     current_order = Order.objects.filter(user=request.user, status__in=['looking_for_driver', 'driver_on_the_way_to_pickup', 'driver_on_the_way_to_laundry', 'laundry_received', 'laundry_cleaning', 'driver_on_the_way_to_customer']).first()
     
