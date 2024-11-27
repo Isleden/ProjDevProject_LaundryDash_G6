@@ -93,9 +93,11 @@
                     
                     <!-- Button to trigger Modal -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal" 
-                        data-business-id="{{ business.id }}" data-business-name="{{ business.business_name }}">
-                        Order Now
-                    </button>
+                        data-business-id="{{ business.id }}" data-business-name="{{ business.business_name }}" 
+                        data-business-logo="{{ business.logo }}"
+                        data-business-address="{{ business.business_address }}">
+                    Order Now
+                </button>
                 </div>
             {% endfor %}
         {% else %}
@@ -115,10 +117,21 @@
                 </div>
                 <div class="modal-body">
                     <form method="post" action="{% url 'users:order_submit' %}">  <!-- Updated action -->
-                        <h4 class="title">Order Form</h4>
+                        <h4 class="title" id="order_form_title">Order Form</h4>
                         {% csrf_token %}
+
                         <!-- Hidden Input for Business ID -->
                         <input type="hidden" id="business_id" name="business_id" value="">
+                        
+                        <!-- Display Business Logo -->
+                        <div id="business_logo" class="text-center">
+                            <img src="" alt="Business Logo" id="logo_image" class="img-fluid">
+                        </div>
+    
+                        <!-- Display Business Address -->
+                        <div id="business_address" class="mt-3 text-center">
+                            <p><strong>Address:</strong> <span id="address_text"></span></p>
+                        </div>
                         
                         <div class="form-group">
                             <label for="upper_body_clothes">Upper Body Clothes:</label>
@@ -147,15 +160,22 @@
         </div>
     </div>
     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $('#orderModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var businessId = button.data('business-id'); // Extract the business ID
-            var businessName = button.data('business-name'); // Extract the business name (optional, can be used for UI)
+        $(document).ready(function() {
+            $("button[data-toggle='modal']").click(function() {
+                var businessId = $(this).data("business-id");
+                var businessName = $(this).data("business-name");
+                var businessLogo = $(this).data("business-logo");
+                var businessAddress = $(this).data("business-address");
     
-            var modal = $(this);
-            modal.find('#business_id').val(businessId); // Set the business ID in the hidden input
+                $("#business_id").val(businessId);  
+                $("#logo_image").attr("src", businessLogo ? businessLogo : "/static/users/images/default-logo.png");  
+                $("#address_text").text(businessAddress);  
+                $("#order_form_title").text(businessName); 
+            });
         });
     </script>
+    
 
 {% endblock %}
