@@ -105,8 +105,41 @@
             {% endfor %}
         </div>
 
+        <div id="customer-fields" style="display: none;">
+            <div class="form-group">
+                <label for="id_address">Address</label>
+                {{ form.address }}
+                {{ form.address.errors }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_phone_number">Phone Number</label>
+                {{ form.phone_number }}
+                {{ form.phone_number.errors }}
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
     <p>Already have an account? <a href="{% url 'users:login' %}">Login here</a>.</p>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const userTypeRadios = document.querySelectorAll('input[name="user_type"]');
+        const customerFields = document.getElementById('customer-fields');
+
+        function toggleCustomerFields() {
+            const selectedType = document.querySelector('input[name="user_type"]:checked').value;
+            customerFields.style.display = (selectedType === 'customer') ? 'block' : 'none';
+        }
+
+        userTypeRadios.forEach(radio => {
+            radio.addEventListener('change', toggleCustomerFields);
+        });
+
+        toggleCustomerFields(); 
+    });
+</script>
+
 {% endblock %}

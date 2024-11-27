@@ -17,10 +17,24 @@ class SignupForm(UserCreationForm):
         ('business', 'Business'),
     ]
     user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES, widget=forms.RadioSelect)
+    address = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3}))
+    phone_number = forms.CharField(required=False, max_length=15)
 
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        user_type = cleaned_data.get('user_type')
+
+        if user_type == 'customer':
+            if not cleaned_data.get('address'):
+                self.add_error('address', 'Address is required for customers.')
+            if not cleaned_data.get('phone_number'):
+                self.add_error('phone_number', 'Phone number is required for customers.')
+                
+        return cleaned_data
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -31,9 +45,15 @@ class SignupForm(UserCreationForm):
             
             # Create the corresponding model instance based on user type
             if self.cleaned_data['user_type'] == 'customer':
-                Customer.objects.create(user_profile=user_profile)
+                Customer.objects.create(
+                    user_profile=user_profile,
+                    address=self.cleaned_data['address'],
+                    phone_number=self.cleaned_data['phone_number']
+                )
+
             elif self.cleaned_data['user_type'] == 'driver':
                 Driver.objects.create(user_profile=user_profile)
+                
             elif self.cleaned_data['user_type'] == 'business':
                 Business.objects.create(user_profile=user_profile)
         
