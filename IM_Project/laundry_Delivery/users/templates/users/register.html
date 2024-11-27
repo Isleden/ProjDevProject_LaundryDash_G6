@@ -68,7 +68,7 @@
 
 <div class="register-container">
     <h2>Register</h2>
-    <form method="post" action="{% url 'users:register' %}">
+    <form method="post" action="{% url 'users:register' %}" enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="form-group">
@@ -119,6 +119,26 @@
             </div>
         </div>
 
+        <div id="business-fields" style="display: none;">
+            <div class="form-group">
+                <label for="id_business_name">Business Name</label>
+                {{ form.business_name }}
+                {{ form.business_name.errors }}
+            </div>
+        
+            <div class="form-group">
+                <label for="id_business_address">Business Address</label>
+                {{ form.business_address }}
+                {{ form.business_address.errors }}
+            </div>
+        
+            <div class="form-group">
+                <label for="id_logo">Logo</label>
+                {{ form.logo }}
+                {{ form.logo.errors }}
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
     <p>Already have an account? <a href="{% url 'users:login' %}">Login here</a>.</p>
@@ -128,17 +148,19 @@
     document.addEventListener('DOMContentLoaded', function() {
         const userTypeRadios = document.querySelectorAll('input[name="user_type"]');
         const customerFields = document.getElementById('customer-fields');
+        const businessFields = document.getElementById('business-fields');
 
-        function toggleCustomerFields() {
+        function toggleFields() {
             const selectedType = document.querySelector('input[name="user_type"]:checked').value;
             customerFields.style.display = (selectedType === 'customer') ? 'block' : 'none';
+            businessFields.style.display = (selectedType === 'business') ? 'block' : 'none';
         }
 
         userTypeRadios.forEach(radio => {
-            radio.addEventListener('change', toggleCustomerFields);
+            radio.addEventListener('change', toggleFields);
         });
 
-        toggleCustomerFields(); 
+        toggleFields(); // Initialize on load
     });
 </script>
 

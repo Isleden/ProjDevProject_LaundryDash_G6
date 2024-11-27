@@ -17,8 +17,15 @@ class SignupForm(UserCreationForm):
         ('business', 'Business'),
     ]
     user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES, widget=forms.RadioSelect)
+
+    # Customer fields
     address = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3}))
     phone_number = forms.CharField(required=False, max_length=15)
+
+    # Business fields
+    business_name = forms.CharField(required=False, max_length=100)
+    business_address = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3}))
+    logo = forms.ImageField(required=False)
 
     class Meta:
         model = User
@@ -33,6 +40,12 @@ class SignupForm(UserCreationForm):
                 self.add_error('address', 'Address is required for customers.')
             if not cleaned_data.get('phone_number'):
                 self.add_error('phone_number', 'Phone number is required for customers.')
+
+        elif user_type == 'business':
+            if not cleaned_data.get('business_name'):
+                self.add_error('business_name', 'Business name is required.')
+            if not cleaned_data.get('business_address'):
+                self.add_error('business_address', 'Business address is required.')
                 
         return cleaned_data
 
@@ -55,7 +68,12 @@ class SignupForm(UserCreationForm):
                 Driver.objects.create(user_profile=user_profile)
                 
             elif self.cleaned_data['user_type'] == 'business':
-                Business.objects.create(user_profile=user_profile)
+                Business.objects.create(
+                    user_profile=user_profile,
+                    business_name=self.cleaned_data['business_name'],
+                    business_address=self.cleaned_data['business_address'],
+                    logo=self.cleaned_data['logo']
+                )
         
         return user
 

@@ -34,7 +34,7 @@ def ord_history(request):
 
 def signup_view(request):
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = SignupForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('users:login')  # Redirect to login page after signup
