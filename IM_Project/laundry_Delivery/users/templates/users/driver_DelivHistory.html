@@ -1,0 +1,14 @@
+{% extends 'users/baseDriver.html' %}
+{% block title %}Delivery History{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Delivery History</h2>
+
+    {% if orders %}
+  
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+</div>
+{% endblock %}

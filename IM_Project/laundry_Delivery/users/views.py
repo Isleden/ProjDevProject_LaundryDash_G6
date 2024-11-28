@@ -80,9 +80,13 @@ def login_view(request):
         form = LoginForm()
     return render(request, 'users/login.html', {'form': form})
 
+def deliv_history(request):
+
+    return render(request, 'users/driver_DelivHistory.html')
+
 @login_required
 def driver_dashboard(request):
-    # Placeholder for the driver's dashboard
+    # driver's dashboard
     return render(request, 'users/driver_dashboard.html')
 
 @login_required

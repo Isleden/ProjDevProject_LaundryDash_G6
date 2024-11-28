@@ -24,6 +24,8 @@ urlpatterns = [
     path('delete-business/<int:business_id>/', views.delete_business, name='delete_business'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('order/update-status/<int:order_id>/', views.update_order_status, name='update_order_status'),
+    path('driver_DelivHistory', views.deliv_history, name='driver_DelivHistory'), 
+
 ]
 
 if settings.DEBUG:

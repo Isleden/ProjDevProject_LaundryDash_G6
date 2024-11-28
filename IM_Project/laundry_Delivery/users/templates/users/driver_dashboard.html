@@ -1,8 +1,70 @@
 <!-- users/driver_dashboard.html -->
-{% extends 'users/base.html' %}
+{% extends 'users/baseDriver.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h2>Driver Dashboard</h2>
-    <p>Welcome, driver!</p>
-</div>
+    <div class="container mt-4">
+        <h2>Your Orders</h2>
+        
+        {% if orders %}
+        {% for order in orders %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Order #{{ order.id }}</h5>
+                    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+                    <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+                    <p><strong>Items:</strong> 
+                        {{ order.upper_body_clothes }} upper body, 
+                        {{ order.lower_body_clothes }} lower body, 
+                        {{ order.underwear }} underwear, 
+                        {{ order.other_stuff }} other items.
+                    </p>
+        
+                    {% if order.status != 'finished' %}
+                            <a href="{% url 'users:update_order_status' order.id %}" class="btn btn-primary">Update Order Status</a> 
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You don't have any active orders.</p>
+    {% endif %}
+    
+    </div>
+    <h2 class="title">Available Orders</h2>
+    <div class="row text-center mt-4">
+        {% if businesses %}
+            {% for business in businesses %}
+                <div class="col">
+                    <!-- Display Business Logo if available -->
+                    {% if business.logo %}
+                        <img src="{{ business.logo.url }}" alt="{{ business.business_name }} Logo" class="laundry-shop-image">
+                    {% else %}
+                        <img src="{% static 'users/images/default-logo.png' %}" alt="Default Logo" class="laundry-shop-image">
+                    {% endif %}
+                    <!-- Display Business Name -->
+                    <h4>{{ business.business_name }}</h4>
+                    <!-- Display Business Description -->
+                    <p>{{ business.business_description }}</p>
+                    <!-- Display Business Address -->
+                    <p><strong>Address:</strong> {{ business.business_address }}</p>
+                    
+                    <!-- Button to trigger Modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal" 
+                        data-business-id="{{ business.id }}" data-business-name="{{ business.business_name }}" 
+                        data-business-logo="{{ business.logo }}"
+                        data-business-address="{{ business.business_address }}">
+                    Order Now
+                </button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No businesses available at the moment.</p>
+        {% endif %}
+    </div>
+    
+   
+    
+
 {% endblock %}
