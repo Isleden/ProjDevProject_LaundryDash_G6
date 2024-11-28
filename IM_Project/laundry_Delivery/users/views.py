@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Order, UserProfile, Business, Order
+from .models import Order, UserProfile, Business, Order, Customer
 from .forms import OrderForm, SignupForm, LoginForm, BusinessForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -89,6 +89,22 @@ def driver_dashboard(request):
 def customer_dashboard(request):
     # Placeholder for the customer's dashboard
     return render(request, 'users/ord-history.html')
+
+@login_required
+def edit_customer_profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+
+    customer = Customer.objects.get(user_profile=user_profile) 
+    
+    if request.method == 'POST':
+        # Update the fields based on form data
+        customer.address = request.POST.get('address')
+        customer.phone_number = request.POST.get('phone_number')
+        customer.save()
+        
+        return redirect('users:main')  # Redirect to home or success page
+    
+    return render(request, 'users/editCustomerProfile.html', {'customer': customer})
 
 
 @login_required

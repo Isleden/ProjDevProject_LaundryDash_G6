@@ -1,0 +1,28 @@
+{% extends 'users/baseCustomer.html' %}
+
+{% block title %}
+Edit Profile
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit Customer Profile</h2>
+    <form method="post" action="{% url 'users:edit_customer_profile' %}">
+        {% csrf_token %}
+        
+        <!-- Address Field -->
+        <div class="form-group">
+            <label for="address">Address</label>
+            <textarea class="form-control" id="address" name="address" rows="3">{{ customer.address }}</textarea>
+        </div>
+        
+        <!-- Phone Number Field -->
+        <div class="form-group">
+            <label for="phone_number">Phone Number</label>
+            <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ customer.phone_number }}">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+{% endblock %}
