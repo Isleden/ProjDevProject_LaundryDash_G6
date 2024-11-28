@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Order, UserProfile, Business, Order, Customer
+from .models import Order, UserProfile, Business, Order, Customer, BusinessOwner
 from .forms import OrderForm, SignupForm, LoginForm, BusinessForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -11,7 +11,7 @@ def index(request):
 
             if user_profile.user_type == 'customer':
                 return redirect('users:main')  
-            elif user_profile.user_type == 'business':
+            elif user_profile.user_type == 'business_owner':
                 return redirect('users:business_dashboard')  
             elif user_profile.user_type == 'driver':
                 return redirect('users:driver_dashboard') 
@@ -72,7 +72,7 @@ def login_view(request):
             user_profile = UserProfile.objects.get(user=user)
             if user_profile.user_type == 'driver':
                 return redirect('users:driver_dashboard')
-            if user_profile.user_type == 'business':
+            if user_profile.user_type == 'business_owner':
                 return redirect('users:business_dashboard')
             else:
                 return redirect('users:main')
@@ -106,6 +106,26 @@ def edit_customer_profile(request):
     
     return render(request, 'users/editCustomerProfile.html', {'customer': customer})
 
+@login_required
+def edit_business_profile(request):
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+
+    # Use get_object_or_404 to handle missing Business profiles
+    business = get_object_or_404(BusinessOwner, user_profile=user_profile)
+    
+    if request.method == 'POST':
+        # Update fields based on form data
+        business.owner_name = request.POST.get('owner_name')
+        
+        if 'logo' in request.FILES:
+            business.logo = request.FILES['logo']
+        
+        business.save()
+        
+        return redirect('users:business_dashboard')  # Redirect to dashboard or success page
+    
+    return render(request, 'users/editBusinessProfile.html', {'business': business})
+
 
 @login_required
 def add_business(request):
@@ -113,7 +133,8 @@ def add_business(request):
         form = BusinessForm(request.POST, request.FILES)
         if form.is_valid():
             business = form.save(commit=False)
-            business.user_profile = UserProfile.objects.get(user=request.user)
+            user_profile = UserProfile.objects.get(user=request.user)
+            business.business_owner = BusinessOwner.objects.get(user_profile=user_profile)
             business.save()
             return redirect('users:business_dashboard')  # Replace with your business list view or another URL
     else:
@@ -123,7 +144,8 @@ def add_business(request):
 @login_required
 def business_dashboard(request):
     user_profile = UserProfile.objects.get(user=request.user)
-    businesses = Business.objects.filter(user_profile=user_profile)
+    business_owner = BusinessOwner.objects.get(user_profile=user_profile)
+    businesses = Business.objects.filter(business_owner=business_owner)
 
     # Fetch all orders related to the business (you can filter by business ID if needed)
     orders = Order.objects.filter(user__userprofile__user=request.user)
@@ -136,7 +158,7 @@ def business_dashboard(request):
 def delete_business(request, business_id):
     try:
         # Get the business object by its ID and ensure the user is the owner
-        business = Business.objects.get(id=business_id, user_profile__user=request.user)
+        business = Business.objects.get(id=business_id)
         business.delete()
         return redirect('users:business_dashboard')  # Redirect back to the business dashboard after deletion
     except Business.DoesNotExist:

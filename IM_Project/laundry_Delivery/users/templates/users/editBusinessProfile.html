@@ -1,0 +1,23 @@
+{% extends 'users/baseBusiness.html' %}
+
+{% block title %}
+Edit Business Profile
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit Business Profile</h2>
+    <form method="post" enctype="multipart/form-data" action="{% url 'users:edit_business_profile' %}">
+        {% csrf_token %}
+        
+        <!-- Business Owner Field -->
+        <div class="form-group">
+            <label for="owner_name">Owner Name</label>
+            <input type="text" class="form-control" id="owner_name" name="owner_name" value="{{ business.owner_name }}">
+        </div>
+        
+        
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

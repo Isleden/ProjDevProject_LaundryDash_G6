@@ -30,8 +30,12 @@ class Driver(models.Model):
     def __str__(self):
         return f"Driver: {self.user_profile.user.username}"
 
+class BusinessOwner(models.Model):
+    user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='business_owner_profile')
+    owner_name = models.CharField(max_length=50)
+
 class Business(models.Model):
-    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='business_profiles')
+    business_owner = models.ForeignKey(BusinessOwner, on_delete=models.CASCADE, related_name='business_owner')
     business_name = models.CharField(max_length=100)
     business_address = models.TextField()
     logo = models.ImageField(upload_to='business_logos/', blank=True, null=True)

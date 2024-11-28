@@ -121,21 +121,9 @@
 
         <div id="business-fields" style="display: none;">
             <div class="form-group">
-                <label for="id_business_name">Business Name</label>
-                {{ form.business_name }}
-                {{ form.business_name.errors }}
-            </div>
-        
-            <div class="form-group">
-                <label for="id_business_address">Business Address</label>
-                {{ form.business_address }}
-                {{ form.business_address.errors }}
-            </div>
-        
-            <div class="form-group">
-                <label for="id_logo">Logo</label>
-                {{ form.logo }}
-                {{ form.logo.errors }}
+                <label for="id_business_name">Business Owner Name</label>
+                {{ form.owner_name }}
+                {{ form.owner_name.errors }}
             </div>
         </div>
 
@@ -168,7 +156,7 @@
         function toggleFields() {
             const selectedType = document.querySelector('input[name="user_type"]:checked').value;
             customerFields.style.display = (selectedType === 'customer') ? 'block' : 'none';
-            businessFields.style.display = (selectedType === 'business') ? 'block' : 'none';
+            businessFields.style.display = (selectedType === 'business_owner') ? 'block' : 'none';
             driverFields.style.display = (selectedType === 'driver') ? 'block' : 'none';
         }
 

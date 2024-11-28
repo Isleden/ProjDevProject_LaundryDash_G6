@@ -1,6 +1,6 @@
 # forms.py
 from django import forms
-from .models import Order, UserProfile, Customer, Driver, Business
+from .models import Order, UserProfile, Customer, Driver, BusinessOwner, Business
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -14,7 +14,7 @@ class SignupForm(UserCreationForm):
     USER_TYPE_CHOICES = [
         ('customer', 'Customer'),
         ('driver', 'Driver'),
-        ('business', 'Business Owner'),
+        ('business_owner', 'Business Owner'),
     ]
     user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES, widget=forms.RadioSelect)
 
@@ -23,9 +23,7 @@ class SignupForm(UserCreationForm):
     phone_number = forms.CharField(required=False, max_length=15)
 
     # Business fields
-    business_name = forms.CharField(required=False, max_length=100)
-    business_address = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3}))
-    logo = forms.ImageField(required=False)
+    owner_name = forms.CharField(required=False, max_length=100)
 
     # Driver fields
     vehicle_details = forms.CharField(required=False, max_length=100)
@@ -45,11 +43,9 @@ class SignupForm(UserCreationForm):
             if not cleaned_data.get('phone_number'):
                 self.add_error('phone_number', 'Phone number is required for customers.')
 
-        elif user_type == 'business':
-            if not cleaned_data.get('business_name'):
-                self.add_error('business_name', 'Business name is required.')
-            if not cleaned_data.get('business_address'):
-                self.add_error('business_address', 'Business address is required.')
+        elif user_type == 'business_owner':
+            if not cleaned_data.get('owner_name'):
+                self.add_error('owner_name', 'Business name is required.')
 
         elif user_type == 'driver':
             if not cleaned_data.get('vehicle_details'):
@@ -81,12 +77,10 @@ class SignupForm(UserCreationForm):
                     license_number=self.cleaned_data['license_number']
                 )
                 
-            elif self.cleaned_data['user_type'] == 'business':
-                Business.objects.create(
+            elif self.cleaned_data['user_type'] == 'business_owner':
+                BusinessOwner.objects.create(
                     user_profile=user_profile,
-                    business_name=self.cleaned_data['business_name'],
-                    business_address=self.cleaned_data['business_address'],
-                    logo=self.cleaned_data['logo']
+                    owner_name=self.cleaned_data['owner_name'],
                 )
         
         return user
