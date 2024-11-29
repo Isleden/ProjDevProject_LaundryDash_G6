@@ -74,10 +74,15 @@
     
     </div>
     <h2 class="title">There's something for everyone!</h2>
-    <div class="row text-center mt-4">
+
+    <div class="mb-3">
+        <input type="text" id="businessSearch" class="form-control" placeholder="Search businesses by name...">
+    </div>
+
+    <div class="row text-center mt-4" id="businessList">
         {% if businesses %}
             {% for business in businesses %}
-                <div class="col">
+                <div class="col business-item" data-name="{{ business.business_name|lower }}">
                     <!-- Display Business Logo if available -->
                     {% if business.logo %}
                         <img src="{{ business.logo.url }}" alt="{{ business.business_name }} Logo" class="laundry-shop-image">
@@ -104,6 +109,8 @@
             <p class="text-muted">No businesses available at the moment.</p>
         {% endif %}
     </div>
+
+    <p id="noResultsMessage" class="text-muted mt-3" style="display: none;">We could not find the shop you are looking for.</p>
     
     <!-- Modal for Order Form -->
     <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
@@ -174,6 +181,27 @@
                 $("#address_text").text(businessAddress);  
                 $("#order_form_title").text(businessName); 
             });
+        });
+    </script>
+
+    <script>
+        document.getElementById('businessSearch').addEventListener('keyup', function() {
+            var filter = this.value.toLowerCase();
+            var businessItems = document.querySelectorAll('.business-item');
+            var hasVisibleItems = false;
+    
+            businessItems.forEach(function(item) {
+                var businessName = item.getAttribute('data-name');
+                if (businessName.includes(filter)) {
+                    item.style.display = '';
+                    hasVisibleItems = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+    
+            // Show or hide the "no results" message
+            document.getElementById('noResultsMessage').style.display = hasVisibleItems ? 'none' : '';
         });
     </script>
     
