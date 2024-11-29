@@ -152,7 +152,7 @@ def business_dashboard(request):
     businesses = Business.objects.filter(business_owner=business_owner)
 
     # Fetch all orders related to the business (you can filter by business ID if needed)
-    orders = Order.objects.filter(user__userprofile__user=request.user)
+    orders = Order.objects.filter(ordered_from_business__in=businesses)
 
     return render(request, 'users/business_dashboard.html', {
         'businesses': businesses,
@@ -173,10 +173,14 @@ def delete_business(request, business_id):
 def order_submit(request):
     if request.method == 'POST':
         # Extract data from the form
+        business_id = request.POST.get('business_id') 
         upper_body_clothes = int(request.POST.get('upper_body_clothes', 0))
         lower_body_clothes = int(request.POST.get('lower_body_clothes', 0))
         underwear = int(request.POST.get('underwear', 0))
         other_stuff = int(request.POST.get('other_stuff', 0))
+
+        # Fetch the Business instance
+        business = get_object_or_404(Business, id=business_id)
 
         # Assuming fixed prices
         price_per_upper = 2  # Example price
@@ -193,6 +197,7 @@ def order_submit(request):
         # Create and save a new Order instance
         order = Order(
             user=request.user,
+            ordered_from_business=business,
             upper_body_clothes=upper_body_clothes,
             lower_body_clothes=lower_body_clothes,
             underwear=underwear,

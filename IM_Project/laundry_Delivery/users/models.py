@@ -42,7 +42,7 @@ class Business(models.Model):
 
 
     def __str__(self):
-        return f"Business: {self.business_name} (Owner: {self.user_profile.user.username})"
+        return f"Business: {self.business_name} (Owner: {self.business_owner.owner_name})"
 
 class Order(models.Model):
     STATUS_CHOICES = [
@@ -56,7 +56,8 @@ class Order(models.Model):
         ('finished', 'Finished'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    ordered_from_business = models.ForeignKey(Business, on_delete=models.CASCADE, null=False)
     upper_body_clothes = models.IntegerField(default=0)
     lower_body_clothes = models.IntegerField(default=0)
     underwear = models.IntegerField(default=0)
