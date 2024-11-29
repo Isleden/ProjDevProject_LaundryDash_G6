@@ -2,9 +2,233 @@
 
 {% block content %}
 <h2>Add Your Business</h2>
-<form method="POST" enctype="multipart/form-data">
+
+<form id="businessForm" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Add Business</button>
 </form>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addServiceModal">
+    Add Service
+</button>
+
+<!-- Add Service Modal -->
+<div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="addServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addServiceModalLabel">Add Service and Load Tendency</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addServiceForm">
+                    <div class="form-group">
+                        <label for="serviceName">Service Name</label>
+                        <input type="text" class="form-control" id="serviceName" name="service_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceDescription">Description</label>
+                        <input type="text" class="form-control" id="serviceDescription" name="description" required>
+                    </div>
+
+                    <h5>Load Tendency: Light</h5>
+                    <div class="form-group">
+                        <label for="lightPrice">Price</label>
+                        <input type="number" class="form-control" id="lightPrice" name="light_tendency_price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lightMin">Minimum Load</label>
+                        <input type="number" class="form-control" id="lightMin" name="light_tendency_minimum" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lightMax">Maximum Load</label>
+                        <input type="number" class="form-control" id="lightMax" name="light_tendency_maximum" required>
+                    </div>
+
+                    <h5>Load Tendency: Medium</h5>
+                    <div class="form-group">
+                        <label for="mediumPrice">Price</label>
+                        <input type="number" class="form-control" id="mediumPrice" name="medium_tendency_price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mediumMin">Minimum Load</label>
+                        <input type="number" class="form-control" id="mediumMin" name="medium_tendency_minimum" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mediumMax">Maximum Load</label>
+                        <input type="number" class="form-control" id="mediumMax" name="medium_tendency_maximum" required>
+                    </div>
+
+                    <h5>Load Tendency: Heavy</h5>
+                    <div class="form-group">
+                        <label for="heavyPrice">Price</label>
+                        <input type="number" class="form-control" id="heavyPrice" name="heavy_tendency_price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="heavyMin">Minimum Load</label>
+                        <input type="number" class="form-control" id="heavyMin" name="heavy_tendency_minimum" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="heavyMax">Maximum Load</label>
+                        <input type="number" class="form-control" id="heavyMax" name="heavy_tendency_maximum" required>
+                    </div>
+
+                    <button type="button" id="saveServiceBtn" class="btn btn-primary">Save Service</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Display Added Services as Cards -->
+<div id="servicesContainer" class="mt-4">
+    <!-- Dynamic cards will be added here -->
+</div>
+
+
+<script>
+    document.getElementById('saveServiceBtn').addEventListener('click', function(event) {
+        event.preventDefault();
+    
+        // Get values from the form
+        const serviceName = document.getElementById('serviceName').value.trim();
+        const serviceDescription = document.getElementById('serviceDescription').value.trim();
+        const lightPrice = parseFloat(document.getElementById('lightPrice').value);
+        const lightMin = parseFloat(document.getElementById('lightMin').value);
+        const lightMax = parseFloat(document.getElementById('lightMax').value);
+        const mediumPrice = parseFloat(document.getElementById('mediumPrice').value);
+        const mediumMin = parseFloat(document.getElementById('mediumMin').value);
+        const mediumMax = parseFloat(document.getElementById('mediumMax').value);
+        const heavyPrice = parseFloat(document.getElementById('heavyPrice').value);
+        const heavyMin = parseFloat(document.getElementById('heavyMin').value);
+        const heavyMax = parseFloat(document.getElementById('heavyMax').value);
+    
+        // Validate fields
+        if (!serviceName || !serviceDescription) {
+            alert("Service Name and Description are required.");
+            return;
+        }
+    
+        const fields = [lightPrice, lightMin, lightMax, mediumPrice, mediumMin, mediumMax, heavyPrice, heavyMin, heavyMax];
+        if (fields.some(value => value < 0 || isNaN(value))) {
+            alert("All numeric fields must be non-negative.");
+            return;
+        }
+    
+        if (lightMin >= lightMax) {
+            alert("Light load minimum must be less than its maximum.");
+            return;
+        }
+    
+        if (mediumMin <= lightMax || mediumMin >= mediumMax) {
+            alert("Medium load minimum must be greater than Light load maximum and less than its own maximum.");
+            return;
+        }
+    
+        if (heavyMin <= mediumMax || heavyMin >= heavyMax) {
+            alert("Heavy load minimum must be greater than Medium load maximum and less than its own maximum.");
+            return;
+        }
+    
+        // Create the service card if all validations pass
+        const serviceCard = document.createElement('div');
+        serviceCard.classList.add('card', 'mb-3');
+        serviceCard.setAttribute('data-service-name', serviceName);
+        serviceCard.setAttribute('data-service-description', serviceDescription);
+        serviceCard.setAttribute('data-light-price', lightPrice);
+        serviceCard.setAttribute('data-light-min', lightMin);
+        serviceCard.setAttribute('data-light-max', lightMax);
+        serviceCard.setAttribute('data-medium-price', mediumPrice);
+        serviceCard.setAttribute('data-medium-min', mediumMin);
+        serviceCard.setAttribute('data-medium-max', mediumMax);
+        serviceCard.setAttribute('data-heavy-price', heavyPrice);
+        serviceCard.setAttribute('data-heavy-min', heavyMin);
+        serviceCard.setAttribute('data-heavy-max', heavyMax);
+    
+        serviceCard.innerHTML = `
+            <div class="card-body">
+                <h5 class="card-title">${serviceName}</h5>
+                <p class="card-text">${serviceDescription}</p>
+                <p><strong>Light Price:</strong> ${lightPrice} | <strong>Load Range:</strong> ${lightMin} - ${lightMax}</p>
+                <p><strong>Medium Price:</strong> ${mediumPrice} | <strong>Load Range:</strong> ${mediumMin} - ${mediumMax}</p>
+                <p><strong>Heavy Price:</strong> ${heavyPrice} | <strong>Load Range:</strong> ${heavyMin} - ${heavyMax}</p>
+            </div>
+        `;
+    
+        document.getElementById('servicesContainer').appendChild(serviceCard);
+        document.getElementById('addServiceForm').reset();
+    });
+    
+    document.getElementById('businessForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const businessForm = new FormData(this);
+    
+        // Collect service data from the cards using data attributes
+        const services = [];
+        const serviceCards = document.getElementById('servicesContainer').children;
+        for (let i = 0; i < serviceCards.length; i++) {
+            const card = serviceCards[i];
+            const serviceName = card.getAttribute('data-service-name');
+            const serviceDescription = card.getAttribute('data-service-description');
+            const lightPrice = card.getAttribute('data-light-price');
+            const lightMin = card.getAttribute('data-light-min');
+            const lightMax = card.getAttribute('data-light-max');
+    
+            const mediumPrice = card.getAttribute('data-medium-price');
+            const mediumMin = card.getAttribute('data-medium-min');
+            const mediumMax = card.getAttribute('data-medium-max');
+    
+            const heavyPrice = card.getAttribute('data-heavy-price');
+            const heavyMin = card.getAttribute('data-heavy-min');
+            const heavyMax = card.getAttribute('data-heavy-max');
+    
+            services.push({
+                service_name: serviceName,
+                description: serviceDescription,
+                light_tendency_price: lightPrice,
+                light_tendency_minimum: lightMin,
+                light_tendency_maximum: lightMax,
+                medium_tendency_price: mediumPrice,
+                medium_tendency_minimum: mediumMin,
+                medium_tendency_maximum: mediumMax,
+                heavy_tendency_price: heavyPrice,
+                heavy_tendency_minimum: heavyMin,
+                heavy_tendency_maximum: heavyMax
+            });
+        }
+    
+        // Add service data to business form
+        businessForm.append('services', JSON.stringify(services));
+    
+        // Submit business and service data together
+        fetch("{% url 'users:add_business' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: businessForm
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Business and services added successfully!');
+                window.location.href = data.redirect_url;
+                // Optionally, redirect or reset the form
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
+    
+    
 {% endblock %}

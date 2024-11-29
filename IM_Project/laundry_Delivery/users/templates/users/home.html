@@ -52,7 +52,7 @@
         {% for order in orders %}
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Order #{{ order.id }}</h5>
+                    <h5 class="card-title">Order From {{ order.ordered_from_business.business_name }}</h5>
                     <p><strong>Status:</strong> {{ order.get_status_display }}</p>
                     <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
                     <p><strong>Items:</strong> 
@@ -61,10 +61,6 @@
                         {{ order.underwear }} underwear, 
                         {{ order.other_stuff }} other items.
                     </p>
-        
-                    {% if order.status != 'finished' %}
-                            <a href="{% url 'users:update_order_status' order.id %}" class="btn btn-primary">Update Order Status</a> 
-                    {% endif %}
                 </div>
             </div>
         {% endfor %}

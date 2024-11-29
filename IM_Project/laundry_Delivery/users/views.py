@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Order, UserProfile, Business, Order, Customer, BusinessOwner
+from .models import Order, UserProfile, Business, Order, Customer, BusinessOwner, Service
 from .forms import OrderForm, SignupForm, LoginForm, BusinessForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from django.http import JsonResponse
+import json
 
 def index(request):
     if request.user.is_authenticated:
@@ -136,11 +139,39 @@ def add_business(request):
     if request.method == 'POST':
         form = BusinessForm(request.POST, request.FILES)
         if form.is_valid():
+            # Save the business
             business = form.save(commit=False)
             user_profile = UserProfile.objects.get(user=request.user)
             business.business_owner = BusinessOwner.objects.get(user_profile=user_profile)
             business.save()
-            return redirect('users:business_dashboard')  # Replace with your business list view or another URL
+
+            # Get services data from the POST request
+            services_data = request.POST.get('services')
+            if services_data:
+                services = json.loads(services_data)  # Convert the JSON string into a Python object
+                
+                for service_data in services:
+                    # Create a new service and associate it with the business
+                    Service.objects.create(
+                        business=business,
+                        service_name=service_data['service_name'],
+                        description=service_data['description'],
+                        light_tendency_price=service_data['light_tendency_price'],
+                        light_tendency_minimum=service_data['light_tendency_minimum'],
+                        light_tendency_maximum=service_data['light_tendency_maximum'],
+                        medium_tendency_price=service_data['medium_tendency_price'],
+                        medium_tendency_minimum=service_data['medium_tendency_minimum'],
+                        medium_tendency_maximum=service_data['medium_tendency_maximum'],
+                        heavy_tendency_price=service_data['heavy_tendency_price'],
+                        heavy_tendency_minimum=service_data['heavy_tendency_minimum'],
+                        heavy_tendency_maximum=service_data['heavy_tendency_maximum'],
+                    )
+            print("Redirecting to business_dashboard")
+            return JsonResponse({'success': True, 'redirect_url': reverse('users:business_dashboard')})
+        else:
+            # If the form is not valid, you may want to handle the errors
+            return render(request, 'users/add_business.html', {'form': form, 'error': 'Form is invalid.'})
+
     else:
         form = BusinessForm()
     return render(request, 'users/add_business.html', {'form': form})
@@ -210,6 +241,50 @@ def order_submit(request):
         return redirect('users:main')
 
     return render(request, 'home.html')  # Handle GET requests if necessary
+
+@login_required
+def add_service(request):
+    if request.method == 'POST':
+        business_id = request.POST.get('business_id')
+        service_name = request.POST.get('service_name')
+        description = request.POST.get('description')
+
+        light_price = request.POST.get('light_tendency_price')
+        light_min = request.POST.get('light_tendency_minimum')
+        light_max = request.POST.get('light_tendency_maximum')
+
+        medium_price = request.POST.get('medium_tendency_price')
+        medium_min = request.POST.get('medium_tendency_minimum')
+        medium_max = request.POST.get('medium_tendency_maximum')
+
+        heavy_price = request.POST.get('heavy_tendency_price')
+        heavy_min = request.POST.get('heavy_tendency_minimum')
+        heavy_max = request.POST.get('heavy_tendency_maximum')
+
+        # Fetch the business
+        try:
+            business = Business.objects.get(id=business_id)
+        except Business.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Invalid business ID'})
+
+        # Create the Service
+        service = Service.objects.create(
+            business=business,
+            service_name=service_name,
+            description=description,
+            light_tendency_price=light_price,
+            light_tendency_minimum=light_min,
+            light_tendency_maximum=light_max,
+            medium_tendency_price=medium_price,
+            medium_tendency_minimum=medium_min,
+            medium_tendency_maximum=medium_max,
+            heavy_tendency_price=heavy_price,
+            heavy_tendency_minimum=heavy_min,
+            heavy_tendency_maximum=heavy_max,
+        )
+
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 @login_required
 def customer_dashboard(request):

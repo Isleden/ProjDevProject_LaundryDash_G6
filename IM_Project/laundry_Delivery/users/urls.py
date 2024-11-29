@@ -20,6 +20,7 @@ urlpatterns = [
     path('order/submit/', views.order_submit, name='order_submit'),  # Added this line for order_submit
     path('driver_dashboard', views.driver_dashboard, name='driver_dashboard'), 
     path('add-business/', views.add_business, name='add_business'),
+    path('add-service/', views.add_service, name='add_service'),
     path('business_dashboard', views.business_dashboard, name='business_dashboard'), 
     path('delete-business/<int:business_id>/', views.delete_business, name='delete_business'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),

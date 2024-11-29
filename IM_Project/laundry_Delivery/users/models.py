@@ -44,6 +44,20 @@ class Business(models.Model):
     def __str__(self):
         return f"Business: {self.business_name} (Owner: {self.business_owner.owner_name})"
 
+class Service(models.Model):
+    business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name="service_business")
+    service_name = models.CharField(max_length=100)
+    description = models.CharField(max_length=200)
+    light_tendency_price = models.FloatField(default=0) 
+    light_tendency_minimum = models.FloatField(default=0)
+    light_tendency_maximum = models.FloatField(default=0)
+    medium_tendency_price = models.FloatField(default=0)
+    medium_tendency_minimum = models.FloatField(default=0)
+    medium_tendency_maximum = models.FloatField(default=0)
+    heavy_tendency_price = models.FloatField(default=0)
+    heavy_tendency_minimum = models.FloatField(default=0)
+    heavy_tendency_maximum = models.FloatField(default=0)
+
 class Order(models.Model):
     STATUS_CHOICES = [
         ('looking_for_driver', 'Looking for Driver'),
