@@ -73,6 +73,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     ordered_from_business = models.ForeignKey(Business, on_delete=models.CASCADE, null=False)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, null=False)
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, null=True)
     upper_body_clothes = models.IntegerField(default=0)
     lower_body_clothes = models.IntegerField(default=0)
     underwear = models.IntegerField(default=0)

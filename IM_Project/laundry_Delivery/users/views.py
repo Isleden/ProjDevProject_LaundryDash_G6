@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Order, UserProfile, Business, Order, Customer, BusinessOwner, Service
+from .models import Order, UserProfile, Business, Order, Customer, BusinessOwner, Service, Driver
 from .forms import OrderForm, SignupForm, LoginForm, BusinessForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 import json
 
 def index(request):
@@ -102,13 +102,27 @@ def login_view(request):
     return render(request, 'users/login.html', {'form': form})
 
 def deliv_history(request):
+    orders = Order.objects.filter(status__in=['finished'])
+    user_profile = UserProfile.objects.get(user=request.user)
+    driver = Driver.objects.get(user_profile=user_profile) 
+    accepted_orders = Order.objects.filter(driver=driver)
 
-    return render(request, 'users/driver_DelivHistory.html')
+    return render(request, 'users/driver_DelivHistory.html', {
+        'orders': orders,
+    })
 
 @login_required
 def driver_dashboard(request):
     # driver's dashboard
-    return render(request, 'users/driver_dashboard.html')
+    orders = Order.objects.filter(status__in=['looking_for_driver'])
+    user_profile = UserProfile.objects.get(user=request.user)
+    driver = Driver.objects.get(user_profile=user_profile) 
+    accepted_orders = Order.objects.filter(driver=driver).exclude(status='finished')
+    
+    return render(request, 'users/driver_dashboard.html', {
+        'orders': orders,
+        'accepted_orders': accepted_orders
+    })
 
 @login_required
 def customer_dashboard(request):
@@ -335,6 +349,21 @@ def customer_dashboard(request):
     })
 
 @login_required
+def accept_order_driver(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    
+    user_profile = UserProfile.objects.get(user=request.user)
+    driver = Driver.objects.get(user_profile=user_profile)
+
+    order.driver = driver
+    order.status = 'driver_on_the_way_to_pickup'
+
+    order.save()
+    return redirect('users:driver_dashboard')
+
+
+
+@login_required
 def update_order_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
 
@@ -355,4 +384,4 @@ def update_order_status(request, order_id):
         order.status = 'finished'
 
     order.save()
-    return redirect('users:business_dashboard')  # Redirect to business dashboard after updating the status
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))  # Redirect to business dashboard after updating the status
