@@ -55,6 +55,7 @@
                     <h5 class="card-title">Order From {{ order.ordered_from_business.business_name }}</h5>
                     <p><strong>Status:</strong> {{ order.get_status_display }}</p>
                     <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+                    <p><strong>Service:</strong> {{ order.service.service_name }}</p>
                     <p><strong>Items:</strong> 
                         {{ order.upper_body_clothes }} upper body, 
                         {{ order.lower_body_clothes }} lower body, 
@@ -92,13 +93,15 @@
                     <!-- Display Business Address -->
                     <p><strong>Address:</strong> {{ business.business_address }}</p>
                     
-                    <!-- Button to trigger Modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal" 
-                        data-business-id="{{ business.id }}" data-business-name="{{ business.business_name }}" 
-                        data-business-logo="{{ business.logo }}"
+                    <button type="button" class="btn btn-primary view-services-btn" 
+                        data-toggle="modal" data-target="#servicesModal" 
+                        data-business-id="{{ business.id }}" 
+                        data-business-name="{{ business.business_name }}"
                         data-business-address="{{ business.business_address }}">
-                    Order Now
-                </button>
+                    
+                        View Services
+                    </button>
+
                 </div>
             {% endfor %}
         {% else %}
@@ -107,6 +110,25 @@
     </div>
 
     <p id="noResultsMessage" class="text-muted mt-3" style="display: none;">We could not find the shop you are looking for.</p>
+
+    <!-- Modal for Viewing Services -->
+    <div class="modal fade" id="servicesModal" tabindex="-1" role="dialog" aria-labelledby="servicesModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="servicesModalLabel">Services for <span id="modalBusinessName"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="servicesList">
+                        <!-- Services will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- Modal for Order Form -->
     <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
@@ -119,12 +141,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="{% url 'users:order_submit' %}">  <!-- Updated action -->
+                    <form method="post" id="orderPost" action="{% url 'users:order_submit' %}">  <!-- Updated action -->
                         <h4 class="title" id="order_form_title">Order Form</h4>
                         {% csrf_token %}
 
                         <!-- Hidden Input for Business ID -->
                         <input type="hidden" id="business_id" name="business_id" value="">
+
+                        <!-- Hidden Input for Service ID -->
+                        <input type="hidden" id="service_id" name="service_id" value="">
                         
                         <!-- Display Business Logo -->
                         <div id="business_logo" class="text-center">
@@ -135,27 +160,38 @@
                         <div id="business_address" class="mt-3 text-center">
                             <p><strong>Address:</strong> <span id="address_text"></span></p>
                         </div>
+
+                        <div class="">
+                            <p class="title" id="delivery_fee">Delivery Fee: ₱50</p>
+                            <p class="title" id="order_service_light"></p>
+                            <p class="title" id="order_service_medium"></p>
+                            <p class="title" id="order_service_heavy"></p>
+                        </div>
                         
                         <div class="form-group">
                             <label for="upper_body_clothes">Upper Body Clothes:</label>
-                            <input type="number" class="form-control" id="upper_body_clothes" name="upper_body_clothes" min="0" required>
+                            <input type="number" class="form-control" id="upper_body_clothes" name="upper_body_clothes" min="0" value=0 required>
                         </div>
                         <div class="form-group">
                             <label for="lower_body_clothes">Lower Body Clothes:</label>
-                            <input type="number" class="form-control" id="lower_body_clothes" name="lower_body_clothes" min="0" required>
+                            <input type="number" class="form-control" id="lower_body_clothes" name="lower_body_clothes" min="0" value=0 required>
                         </div>
                         <div class="form-group">
                             <label for="underwear">Underwear:</label>
-                            <input type="number" class="form-control" id="underwear" name="underwear" min="0" required>
+                            <input type="number" class="form-control" id="underwear" name="underwear" min="0" value=0 required>
                         </div>
                         <div class="form-group">
                             <label for="other_stuff">Other Stuff:</label>
-                            <input type="number" class="form-control" id="other_stuff" name="other_stuff" min="0" required>
+                            <input type="number" class="form-control" id="other_stuff" name="other_stuff" min="0" value=0 required>
                         </div>
+                        
                         <div class="form-group">
                             <label for="total_price">Total Price:</label>
-                            <input type="text" class="form-control" id="total_price" name="total_price" readonly>
+                            <input type="text" class="form-control" id="total_price" name="total_price" value=50.00 readonly>
                         </div>
+
+                        <p>Total Kilograms: <span id="total_kg">0.00</span> kg</p>
+
                         <button type="submit" class="btn btn-primary">Submit Order</button>
                     </form>
                 </div>
@@ -178,6 +214,192 @@
                 $("#order_form_title").text(businessName); 
             });
         });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(".view-services-btn").click(function() {
+                var businessId = $(this).data("business-id");
+                var businessName = $(this).data("business-name");
+                var businessAddress = $(this).data("business-address");
+                
+                $("#modalBusinessName").text(businessName);
+                $("#servicesList").html("<p>Loading services...</p>"); // Placeholder while loading
+                
+                $.ajax({
+                    url: "{% url 'users:get_services' %}", // URL for fetching services
+                    method: "GET",
+                    data: { business_id: businessId },
+                    success: function(response) {
+                        var servicesHtml = '';
+                        if (response.services.length > 0) {
+                            response.services.forEach(function(service) {
+                                servicesHtml += `
+                                <div class="service-item">
+                                    <h5>${service.service_name}</h5>
+                                    <p>${service.description}</p>
+                                    <p><strong>Price Range:</strong> $${service.light_tendency_price} - $${service.heavy_tendency_price}</p>
+                                    <button type="button" class="btn btn-success order-now-btn" 
+                                        data-service-id="${service.id}" 
+                                        data-service-name="${service.service_name}"
+                                        data-service-light-price="${service.light_tendency_price}"
+                                        data-service-light-minimum="${service.light_tendency_minimum}"
+                                        data-service-light-maximum="${service.light_tendency_maximum}"
+                                        data-service-medium-price="${service.medium_tendency_price}"
+                                        data-service-medium-minimum="${service.medium_tendency_minimum}"
+                                        data-service-medium-maximum="${service.medium_tendency_maximum}"
+                                        data-service-heavy-price="${service.heavy_tendency_price}"
+                                        data-service-heavy-minimum="${service.heavy_tendency_minimum}"
+                                        data-service-heavy-maximum="${service.heavy_tendency_maximum}"
+                                        data-business-id="${businessId}"
+                                        data-business-address="${businessAddress}">
+                                        Order Now
+                                    </button>
+                                </div><hr>`;
+                            });
+                        } else {
+                            servicesHtml = '<p class="text-muted">No services available.</p>';
+                        }
+                        $("#servicesList").html(servicesHtml);
+                    },
+                    error: function() {
+                        $("#servicesList").html('<p class="text-danger">Failed to load services. Please try again later.</p>');
+                    }
+                });
+            });
+        
+            // Handle "Order Now" button click
+            $(document).on("click", ".order-now-btn", function() {
+                var serviceId = $(this).data("service-id");
+                var serviceName = $(this).data("service-name");
+                var businessId = $(this).data("business-id");
+
+                var lightPrice = $(this).data("service-light-price");
+                var lightMinimum = $(this).data("service-light-minimum");
+                var lightMaximum = $(this).data("service-light-maximum");
+
+                var mediumPrice = $(this).data("service-medium-price");
+                var mediumMinimum = $(this).data("service-medium-minimum");
+                var mediumMaximum = $(this).data("service-medium-maximum");
+            
+                var heavyPrice = $(this).data("service-heavy-price");
+                var heavyMinimum = $(this).data("service-heavy-minimum");
+                var heavyMaximum = $(this).data("service-heavy-maximum");
+
+                var businessAddress = $(this).data("business-address");
+
+                // Populate order modal fields
+                $("#order_form_title").text(`Order for ${serviceName}`);
+                $("#address_text").text(`${businessAddress}`);
+                $("#business_id").val(businessId);
+                $("#service_id").val(serviceId);
+
+                $("#order_service_light").text(`Light Tendency (${lightMinimum}kg - ${lightMaximum}kg): ₱${lightPrice}`);
+                $("#order_service_medium").text(`Medium Tendency (${mediumMinimum}kg - ${mediumMaximum}kg): ₱${mediumPrice}`);
+                $("#order_service_heavy").text(`Heavy Tendency (${heavyMinimum}kg - ${heavyMaximum}kg): ₱${heavyPrice}`);
+
+                // Save price values as global variables for calculation
+                window.lightPrice = lightPrice;
+                window.mediumPrice = mediumPrice;
+                window.heavyPrice = heavyPrice;
+                window.lightMinimum = lightMinimum;
+                window.lightMaximum = lightMaximum;
+                window.mediumMinimum = mediumMinimum;
+                window.mediumMaximum = mediumMaximum;
+                window.heavyMinimum = heavyMinimum;
+                window.heavyMaximum = heavyMaximum;
+            
+                // Close services modal before showing order modal
+                $("#servicesModal").modal("hide");
+                $(".modal-backdrop").remove();
+                
+                // Wait for the services modal to fully hide before showing order modal
+                $("#servicesModal").on('hidden.bs.modal', function () {
+                    $("#orderModal").modal("show");
+                });  
+            });
+        });
+        
+    </script>
+
+    <script>
+        // Function to calculate the total weight
+        function calculateTotalKg() {
+            var upperBody = parseFloat(document.getElementById('upper_body_clothes').value) || 0;
+            var lowerBody = parseFloat(document.getElementById('lower_body_clothes').value) || 0;
+            var underwear = parseFloat(document.getElementById('underwear').value) || 0;
+            var otherStuff = parseFloat(document.getElementById('other_stuff').value) || 0;
+
+            // Weight values per item
+            var upperBodyWeight = 0.5;  // kg
+            var lowerBodyWeight = 0.7;  // kg
+            var underwearWeight = 0.1; // kg
+            var otherStuffWeight = 1.0; // kg
+
+            // Check if any input is negative, reset to 0 if so
+            if (upperBody < 0) upperBody = 0;
+            if (lowerBody < 0) lowerBody = 0;
+            if (underwear < 0) underwear = 0;
+            if (otherStuff < 0) otherStuff = 0;
+    
+            // Calculate total weight
+            var totalKg = (upperBody * upperBodyWeight) + (lowerBody * lowerBodyWeight) + 
+                          (underwear * underwearWeight) + (otherStuff * otherStuffWeight);
+
+            var totalPrice = 50;
+        
+            if (totalKg < mediumMinimum && totalKg >= lightMinimum) {
+                totalPrice = lightPrice + 50;
+            } else if (totalKg < heavyMinimum && totalKg >= mediumMinimum) {
+                totalPrice = mediumPrice + 50;
+            } else if (totalKg <= heavyMaximum && totalKg >= heavyMinimum) {
+                totalPrice = heavyPrice + 50;
+            }
+            
+            if(totalKg <= heavyMaximum){
+                document.getElementById('total_price').value = totalPrice.toFixed(2);
+            }
+            else{
+                document.getElementById('total_price').value = "TOO HEAVY";
+            }
+    
+            // Update the displayed total weight
+            document.getElementById('total_kg').textContent = totalKg.toFixed(2);
+        }
+    
+        // Event listeners to trigger the calculation when the input changes
+        document.getElementById('upper_body_clothes').addEventListener('input', calculateTotalKg);
+        document.getElementById('lower_body_clothes').addEventListener('input', calculateTotalKg);
+        document.getElementById('underwear').addEventListener('input', calculateTotalKg);
+        document.getElementById('other_stuff').addEventListener('input', calculateTotalKg);
+    
+        // Ensure the value is positive
+        function enforcePositiveInput(event) {
+            var value = event.target.value;
+            if (value < 0) {
+                event.target.value = 0;  // Reset to 0 if negative
+            }
+        }
+    
+        // Attach the positive input handler to each input field
+        document.getElementById('upper_body_clothes').addEventListener('input', enforcePositiveInput);
+        document.getElementById('lower_body_clothes').addEventListener('input', enforcePositiveInput);
+        document.getElementById('underwear').addEventListener('input', enforcePositiveInput);
+        document.getElementById('other_stuff').addEventListener('input', enforcePositiveInput);
+
+        // Prevent form submission if total price is "TOO HEAVY"
+        document.getElementById('orderPost').addEventListener('submit', function(event) {
+            var totalPrice = document.getElementById('total_price').value;
+            var kilos = document.getElementById('total_kg').textContent;
+            if (totalPrice === "TOO HEAVY") {
+                event.preventDefault(); // Prevent form submission
+                alert("The total weight is too heavy to process your order. Please reduce the weight.");
+            }
+            if(kilos < 1) {
+                event.preventDefault();
+                alert("Total Kilos must be at least 1.");
+            }
+        })
     </script>
 
     <script>

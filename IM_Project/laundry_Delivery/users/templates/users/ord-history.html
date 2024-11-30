@@ -10,6 +10,7 @@
             <thead>
                 <tr>
                     <th>Order ID</th>
+                    <th>Service</th>
                     <th>Upper Body Clothes</th>
                     <th>Lower Body Clothes</th>
                     <th>Underwear</th>
@@ -23,6 +24,7 @@
                 {% for order in orders %}
                     <tr>
                         <td>{{ order.id }}</td>
+                        <td>{{ order.service.service_name }}</td>
                         <td>{{ order.upper_body_clothes }}</td>
                         <td>{{ order.lower_body_clothes }}</td>
                         <td>{{ order.underwear }}</td>

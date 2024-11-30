@@ -15,6 +15,7 @@ urlpatterns = [
     path('login', views.login_view, name='login'),
     path('register', views.signup_view, name='register'),
     path('ord-history', views.ord_history, name='ord-history'), 
+    path('get-services/', views.get_services, name='get_services'),
     path('edit-profile/', views.edit_customer_profile, name='edit_customer_profile'), 
     path('edit-business-profile/', views.edit_business_profile, name='edit_business_profile'),
     path('order/submit/', views.order_submit, name='order_submit'),  # Added this line for order_submit

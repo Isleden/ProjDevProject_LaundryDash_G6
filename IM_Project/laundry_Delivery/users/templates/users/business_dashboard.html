@@ -48,6 +48,7 @@
                     <th>Order ID</th>
                     <th>Customer</th>
                     <th>Items</th>
+                    <th>Service</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -62,6 +63,7 @@
                             {{ order.underwear }} underwear, 
                             {{ order.other_stuff }} other items.
                         </td>
+                        <td>{{ order.service.service_name }}</td>
                         <td>{{ order.get_status_display }}</td>
                         <td>
                             {% if order.status != 'finished' %}

@@ -55,6 +55,24 @@ def ord_history(request):
         orders = []  # No orders if the user is not authenticated
     return render(request, 'users/ord-history.html', {'orders': orders})
 
+def get_services(request):
+    business_id = request.GET.get('business_id')
+    services = Service.objects.filter(business=business_id).values(
+        'id', 
+        'service_name', 
+        'description', 
+        'light_tendency_price', 
+        'light_tendency_minimum',
+        'light_tendency_maximum',
+        'medium_tendency_price', 
+        'medium_tendency_minimum',
+        'medium_tendency_maximum',
+        'heavy_tendency_price',
+        'heavy_tendency_minimum',
+        'heavy_tendency_maximum',
+    )
+    return JsonResponse({'services': list(services)})
+
 def signup_view(request):
     if request.method == 'POST':
         form = SignupForm(request.POST, request.FILES)
@@ -205,30 +223,23 @@ def order_submit(request):
     if request.method == 'POST':
         # Extract data from the form
         business_id = request.POST.get('business_id') 
+        service_id = request.POST.get('service_id') 
         upper_body_clothes = int(request.POST.get('upper_body_clothes', 0))
         lower_body_clothes = int(request.POST.get('lower_body_clothes', 0))
         underwear = int(request.POST.get('underwear', 0))
         other_stuff = int(request.POST.get('other_stuff', 0))
+        total_price = float(request.POST.get('total_price', 0))
 
         # Fetch the Business instance
         business = get_object_or_404(Business, id=business_id)
 
-        # Assuming fixed prices
-        price_per_upper = 2  # Example price
-        price_per_lower = 2  # Example price
-        price_per_underwear = 5  # Example price
-        price_per_other = 10  # Example price
-
-        # Calculate total price
-        total_price = (upper_body_clothes * price_per_upper) + \
-                      (lower_body_clothes * price_per_lower) + \
-                      (underwear * price_per_underwear) + \
-                      (other_stuff * price_per_other)
+        service = get_object_or_404(Service, id=service_id)
 
         # Create and save a new Order instance
         order = Order(
             user=request.user,
             ordered_from_business=business,
+            service=service,
             upper_body_clothes=upper_body_clothes,
             lower_body_clothes=lower_body_clothes,
             underwear=underwear,
