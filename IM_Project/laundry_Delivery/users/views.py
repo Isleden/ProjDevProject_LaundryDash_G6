@@ -151,7 +151,6 @@ def edit_business_profile(request):
     
     return render(request, 'users/editBusinessProfile.html', {'business': business})
 
-
 @login_required
 def add_business(request):
     if request.method == 'POST':
@@ -207,6 +206,36 @@ def business_dashboard(request):
         'businesses': businesses,
         'orders': orders,  # Pass orders to the template
     })
+
+@login_required
+def get_business_details(request, business_id):
+    # Fetch the business object using the provided business_id
+    print("hey")
+    business = get_object_or_404(Business, id=business_id)
+
+    # Serialize the business details along with related data (like services and owner)
+    business_data = {
+        'business_name': business.business_name,
+        'business_address': business.business_address,
+        'business_owner': {
+            'owner_name': business.business_owner.owner_name,  # Now using the 'owner_name' from BusinessOwner
+        },
+        'services': [
+            {
+                'service_name': service.service_name,
+                'description': service.description,
+                'light_tendency_price': service.light_tendency_price,
+                'medium_tendency_price': service.medium_tendency_price,
+                'heavy_tendency_price': service.heavy_tendency_price,
+            }
+            for service in business.service_business.all()  # 'service_business' is the related name for services in Business model
+        ]
+    }
+
+    # Return the business data as a JSON response
+    return JsonResponse(business_data)
+
+    
 @login_required
 def delete_business(request, business_id):
     try:

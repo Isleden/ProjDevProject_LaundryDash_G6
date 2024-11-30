@@ -18,6 +18,7 @@ urlpatterns = [
     path('get-services/', views.get_services, name='get_services'),
     path('edit-profile/', views.edit_customer_profile, name='edit_customer_profile'), 
     path('edit-business-profile/', views.edit_business_profile, name='edit_business_profile'),
+    path('get-business-details/<int:business_id>/', views.get_business_details, name='get_business_details'),
     path('order/submit/', views.order_submit, name='order_submit'),  # Added this line for order_submit
     path('driver_dashboard', views.driver_dashboard, name='driver_dashboard'), 
     path('add-business/', views.add_business, name='add_business'),
