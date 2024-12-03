@@ -38,7 +38,7 @@ class Business(models.Model):
     business_owner = models.ForeignKey(BusinessOwner, on_delete=models.CASCADE, related_name='business_owner')
     business_name = models.CharField(max_length=100)
     business_address = models.TextField()
-    logo = models.ImageField(upload_to='business_logos/', blank=True, null=True)
+    logo = models.ImageField(upload_to='logos/', blank=True, null=True)
 
 
     def __str__(self):

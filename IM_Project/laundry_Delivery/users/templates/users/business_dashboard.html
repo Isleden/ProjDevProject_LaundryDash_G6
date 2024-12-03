@@ -18,9 +18,9 @@
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm">
                         {% if business.logo %}
-                            <img src="{{ business.logo.url }}" class="card-img-top" alt="Logo">
+                            <img src="/users{{ business.logo.url }}" class="card-img-top" alt="Logo">
                         {% else %}
-                            <img src="{% static 'users/images/default-logo.png' %}" class="card-img-top" alt="Default Logo">
+                            <img src="{% static 'logos/default-logo.png' %}" class="card-img-top" alt="Default Logo">
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ business.business_name }}</h5>
