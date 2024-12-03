@@ -97,6 +97,7 @@
                         data-toggle="modal" data-target="#servicesModal" 
                         data-business-id="{{ business.id }}" 
                         data-business-name="{{ business.business_name }}"
+                        data-business-logo="{{ business.logo }}"
                         data-business-address="{{ business.business_address }}">
                     
                         View Services
@@ -150,6 +151,9 @@
 
                         <!-- Hidden Input for Service ID -->
                         <input type="hidden" id="service_id" name="service_id" value="">
+
+                        <!-- Hidden Input for Logo URL -->
+                        <input type="hidden" id="logo_url" name="logo_url" value="">
                         
                         <!-- Display Business Logo -->
                         <div id="business_logo" class="text-center">
@@ -207,9 +211,10 @@
                 var businessName = $(this).data("business-name");
                 var businessLogo = $(this).data("business-logo");
                 var businessAddress = $(this).data("business-address");
+
     
                 $("#business_id").val(businessId);  
-                $("#logo_image").attr("src", businessLogo ? businessLogo : "/static/users/images/default-logo.png");  
+                $("#logo_url").val(businessLogo);  
                 $("#address_text").text(businessAddress);  
                 $("#order_form_title").text(businessName); 
             });
@@ -222,7 +227,8 @@
                 var businessId = $(this).data("business-id");
                 var businessName = $(this).data("business-name");
                 var businessAddress = $(this).data("business-address");
-                
+                var businessLogo = $(this).data("business-logo");
+
                 $("#modalBusinessName").text(businessName);
                 $("#servicesList").html("<p>Loading services...</p>"); // Placeholder while loading
                 
@@ -252,7 +258,8 @@
                                         data-service-heavy-minimum="${service.heavy_tendency_minimum}"
                                         data-service-heavy-maximum="${service.heavy_tendency_maximum}"
                                         data-business-id="${businessId}"
-                                        data-business-address="${businessAddress}">
+                                        data-business-address="${businessAddress}"
+                                        data-business-logo="${businessLogo}">
                                         Order Now
                                     </button>
                                 </div><hr>`;
@@ -273,6 +280,7 @@
                 var serviceId = $(this).data("service-id");
                 var serviceName = $(this).data("service-name");
                 var businessId = $(this).data("business-id");
+                var businessLogo = $(this).data("business-logo");
 
                 var lightPrice = $(this).data("service-light-price");
                 var lightMinimum = $(this).data("service-light-minimum");
@@ -288,11 +296,13 @@
 
                 var businessAddress = $(this).data("business-address");
 
+
                 // Populate order modal fields
                 $("#order_form_title").text(`Order for ${serviceName}`);
                 $("#address_text").text(`${businessAddress}`);
                 $("#business_id").val(businessId);
                 $("#service_id").val(serviceId);
+                $("#logo_image").attr("src", businessLogo ? `/users/media/${businessLogo}` : "/static/logos/default-logo.png");  
 
                 $("#order_service_light").text(`Light Tendency (${lightMinimum}kg - ${lightMaximum}kg): ₱${lightPrice}`);
                 $("#order_service_medium").text(`Medium Tendency (${mediumMinimum}kg - ${mediumMaximum}kg): ₱${mediumPrice}`);
