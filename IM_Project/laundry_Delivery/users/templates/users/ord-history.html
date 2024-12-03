@@ -1,7 +1,79 @@
 {% extends 'users/baseCustomer.html' %}
+
 {% block title %}Order History{% endblock %}
 
 {% block content %}
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    .table thead {
+        background-color: #f8f9fa;
+    }
+
+    .table th, .table td {
+        padding: 12px 15px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .table th {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .status {
+        padding: 5px 10px;
+        border-radius: 15px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .status.completed {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status.pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .status.canceled {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    p {
+        text-align: center;
+        font-size: 16px;
+        color: #666;
+    }
+</style>
+
 <div class="container mt-5">
     <h2>Order History</h2>
 
@@ -29,9 +101,17 @@
                         <td>{{ order.lower_body_clothes }}</td>
                         <td>{{ order.underwear }}</td>
                         <td>{{ order.other_stuff }}</td>
-                        <td>{{ order.total_price }}</td>
-                        <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>  <!-- Assuming you have a created_at field -->
-                        <td>{{ order.status }}</td>
+                        <td>${{ order.total_price }}</td>
+                        <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            <span class="status 
+                                {% if order.status == 'Completed' %}completed
+                                {% elif order.status == 'Pending' %}pending
+                                {% elif order.status == 'Canceled' %}canceled
+                                {% endif %}">
+                                {{ order.status }}
+                            </span>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
