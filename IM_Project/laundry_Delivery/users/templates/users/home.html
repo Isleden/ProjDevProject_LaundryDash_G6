@@ -82,9 +82,9 @@
                 <div class="col business-item" data-name="{{ business.business_name|lower }}">
                     <!-- Display Business Logo if available -->
                     {% if business.logo %}
-                        <img src="{{ business.logo.url }}" alt="{{ business.business_name }} Logo" class="laundry-shop-image">
+                        <img src="/users{{ business.logo.url }}" alt="{{ business.business_name }} Logo" class="laundry-shop-image">
                     {% else %}
-                        <img src="{% static 'users/images/default-logo.png' %}" alt="Default Logo" class="laundry-shop-image">
+                        <img src="{% static 'logos/default-logo.png' %}" alt="Default Logo" class="laundry-shop-image">
                     {% endif %}
                     <!-- Display Business Name -->
                     <h4>{{ business.business_name }}</h4>
