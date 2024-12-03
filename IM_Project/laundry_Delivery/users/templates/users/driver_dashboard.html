@@ -13,6 +13,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Order #{{ order.id }}</h5>
                     <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+                    <p><strong>Contact Number:</strong> {{ order.phone_number }}</p>
                     <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
                     <p><strong>Items:</strong> 
                         {{ order.upper_body_clothes }} upper body, 
@@ -42,6 +43,7 @@
                     <tr>
                         <th>Order ID</th>
                         <th>Customer</th>
+                        <th>Phone Number</th>
                         <th>Items</th>
                         <th>Service</th>
                         <th>Status</th>
@@ -53,6 +55,7 @@
                         <tr>
                             <td>{{ order.id }}</td>
                             <td>{{ order.user }}</td>
+                            <td>{{ order.phone_number }}</td>
                             <td>{{ order.upper_body_clothes }} upper body, 
                                 {{ order.lower_body_clothes }} lower body, 
                                 {{ order.underwear }} underwear, 

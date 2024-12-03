@@ -71,6 +71,7 @@ class Order(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    phone_number = models.CharField(max_length=30, null=True)
     ordered_from_business = models.ForeignKey(Business, on_delete=models.CASCADE, null=False)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, null=False)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE, null=True)

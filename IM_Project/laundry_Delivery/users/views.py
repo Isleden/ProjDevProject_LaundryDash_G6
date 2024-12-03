@@ -273,6 +273,9 @@ def order_submit(request):
         other_stuff = int(request.POST.get('other_stuff', 0))
         total_price = float(request.POST.get('total_price', 0))
 
+        user_profile = UserProfile.objects.get(user=request.user)
+        customer = Customer.objects.get(user_profile=user_profile)
+
         # Fetch the Business instance
         business = get_object_or_404(Business, id=business_id)
 
@@ -281,6 +284,7 @@ def order_submit(request):
         # Create and save a new Order instance
         order = Order(
             user=request.user,
+            phone_number=customer.phone_number,
             ordered_from_business=business,
             service=service,
             upper_body_clothes=upper_body_clothes,
