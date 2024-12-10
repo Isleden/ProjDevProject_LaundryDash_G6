@@ -28,28 +28,28 @@ Laundry Dash is a web platform designed to streamline the laundry service experi
 
 ## ⚙️Features
 
-    1.	User Registration:
-    •	The platform provides a user-friendly registration process, allowing new users to quickly sign up as a laundry business owner, driver, or customer.
+    1.User Registration:
+    • The platform provides a user-friendly registration process, allowing new users to quickly sign up as a laundry business owner, driver, or customer.
 
-    2.	Service Selection and Order Placement:
-    •	Customers can choose their preferred laundry provider for services.
-    •   Customers can search for their preferred laundry provider to save time.
-    •   Customers can enter the amount of clothes they have, and the system will automatically calculate the total weight and determine the appropriate load category.
+    2.Service Selection and Order Placement:
+    • Customers can choose their preferred laundry provider for services.
+    • Customers can search for their preferred laundry provider to save time.
+    • Customers can enter the amount of clothes they have, and the system will automatically calculate the total weight and determine the appropriate load category.
 
-    3.	Real-Time Order Status Updates:
-    •	Users can track the status of their laundry orders in real time, from pickup to cleaning to delivery, enhancing trust and satisfaction.
+    3.Real-Time Order Status Updates:
+    • Users can track the status of their laundry orders in real time, from pickup to cleaning to delivery, enhancing trust and satisfaction.
 
-    4.	Manage multiple businesses:
-    •	Laundry business owners can add and manage multiple businesses from a single account.
+    4.Manage multiple businesses:
+    • Laundry business owners can add and manage multiple businesses from a single account.
 
-    5.	Add multiple services to a business:
-    •	Business owners can add various services, each categorized by load types (e.g., light, medium, heavy), which determine the pricing for customer orders.
+    5.Add multiple services to a business:
+    • Business owners can add various services, each categorized by load types (e.g., light, medium, heavy), which determine the pricing for customer orders.
 
-    6.	User-friendly UI:
-    •	The platform is designed to be intuitive and accessible, catering to users of different age groups.
+    6.User-friendly UI:
+    • The platform is designed to be intuitive and accessible, catering to users of different age groups.
 
-    7.  Driver delivery orders:
-    •   Drivers can accept multiple delivery orders and view detailed information about the customer, their order, and the associated laundry business
+    7.Driver delivery orders:
+    • Drivers can accept multiple delivery orders and view detailed information about the customer, their order, and the associated laundry business
 
 
 
