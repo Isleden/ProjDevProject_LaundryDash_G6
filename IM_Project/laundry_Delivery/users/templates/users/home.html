@@ -54,7 +54,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Order From {{ order.ordered_from_business.business_name }}</h5>
                     <p><strong>Status:</strong> {{ order.get_status_display }}</p>
-                    <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+                    <p><strong>Total Price:</strong> ₱{{ order.total_price }}</p>
                     <p><strong>Service:</strong> {{ order.service.service_name }}</p>
                     <p><strong>Items:</strong> 
                         {{ order.upper_body_clothes }} upper body, 

@@ -27,7 +27,13 @@
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Text shadow for depth */
     margin-bottom: 20px; /* Spacing below the header */
 }
-
+.welcome-text {
+    font-size: 55; /* Large font size */
+    font-weight: bold; /* Bold text */
+    color:#b71c1c
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Text shadow for depth */
+    margin-bottom: 20px; /* Spacing below the header */
+}
 /* Button styling */
 .btn-get-started {
     background-color: #dc3545; /* Pink background */

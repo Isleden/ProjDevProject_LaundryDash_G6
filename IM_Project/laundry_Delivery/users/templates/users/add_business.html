@@ -1,19 +1,76 @@
-{% extends "users/baseBusiness.html" %}
+{% extends "users/baseBusinessAdd.html" %}
 
 {% block content %}
-<h2>Add Your Business</h2>
+<style>
+body {
+    font-family: sans-serif;
+}
 
-<form id="businessForm" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Add Business</button>
-</form>
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addServiceModal">
-    Add Service
-</button>
+form {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-<!-- Add Service Modal -->
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%; /* Make all input fields full width */
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    height: 30px; /* Set fixed height for input fields */
+    resize: none; /* Disable vertical resizing */
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0062cc;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+}
+</style>
+
+<div class="container">
+    <h2>Add Your Business</h2>
+
+    <form id="businessForm" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }} 
+
+        <div class="btn-container">
+            <button type="submit" class="btn btn-primary">Add Business</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addServiceModal">
+                Add Service
+            </button>
+        </div>
+    </form>
+</div>
+
 <div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="addServiceModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -34,46 +91,52 @@
                         <input type="text" class="form-control" id="serviceDescription" name="description" required>
                     </div>
 
-                    <h5>Load Tendency: Light</h5>
-                    <div class="form-group">
-                        <label for="lightPrice">Price</label>
-                        <input type="number" class="form-control" id="lightPrice" name="light_tendency_price" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="lightMin">Minimum Load</label>
-                        <input type="number" class="form-control" id="lightMin" name="light_tendency_minimum" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="lightMax">Maximum Load</label>
-                        <input type="number" class="form-control" id="lightMax" name="light_tendency_maximum" required>
-                    </div>
-
-                    <h5>Load Tendency: Medium</h5>
-                    <div class="form-group">
-                        <label for="mediumPrice">Price</label>
-                        <input type="number" class="form-control" id="mediumPrice" name="medium_tendency_price" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mediumMin">Minimum Load</label>
-                        <input type="number" class="form-control" id="mediumMin" name="medium_tendency_minimum" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mediumMax">Maximum Load</label>
-                        <input type="number" class="form-control" id="mediumMax" name="medium_tendency_maximum" required>
+                    <div class="load-tendency-section">
+                        <h5>Load Tendency: Light</h5>
+                        <div class="form-group">
+                            <label for="lightPrice">Price</label>
+                            <input type="number" class="form-control" id="lightPrice" name="light_tendency_price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lightMin">Minimum Load</label>
+                            <input type="number" class="form-control" id="lightMin" name="light_tendency_minimum" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lightMax">Maximum Load</label>
+                            <input type="number" class="form-control" id="lightMax" name="light_tendency_maximum" required>
+                        </div>
                     </div>
 
-                    <h5>Load Tendency: Heavy</h5>
-                    <div class="form-group">
-                        <label for="heavyPrice">Price</label>
-                        <input type="number" class="form-control" id="heavyPrice" name="heavy_tendency_price" required>
+                    <div class="load-tendency-section">
+                        <h5>Load Tendency: Medium</h5>
+                        <div class="form-group">
+                            <label for="mediumPrice">Price</label>
+                            <input type="number" class="form-control" id="mediumPrice" name="medium_tendency_price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mediumMin">Minimum Load</label>
+                            <input type="number" class="form-control" id="mediumMin" name="medium_tendency_minimum" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mediumMax">Maximum Load</label>
+                            <input type="number" class="form-control" id="mediumMax" name="medium_tendency_maximum" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="heavyMin">Minimum Load</label>
-                        <input type="number" class="form-control" id="heavyMin" name="heavy_tendency_minimum" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="heavyMax">Maximum Load</label>
-                        <input type="number" class="form-control" id="heavyMax" name="heavy_tendency_maximum" required>
+
+                    <div class="load-tendency-section">
+                        <h5>Load Tendency: Heavy</h5>
+                        <div class="form-group">
+                            <label for="heavyPrice">Price</label>
+                            <input type="number" class="form-control" id="heavyPrice" name="heavy_tendency_price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="heavyMin">Minimum Load</label>
+                            <input type="number" class="form-control" id="heavyMin" name="heavy_tendency_minimum" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="heavyMax">Maximum Load</label>
+                            <input type="number" class="form-control" id="heavyMax" name="heavy_tendency_maximum" required>
+                        </div>
                     </div>
 
                     <button type="button" id="saveServiceBtn" class="btn btn-primary">Save Service</button>
@@ -83,6 +146,13 @@
     </div>
 </div>
 
+<style>
+    .load-tendency-section {
+        margin-bottom: 20px;
+        border-top: 1px solid #ddd; /* Add a subtle border between sections */
+        padding-top: 15px; /* Add some spacing for better readability */
+    }
+</style>
 
 <!-- Display Added Services as Cards -->
 <div id="servicesContainer" class="mt-4">
@@ -228,7 +298,6 @@
         });
     });
 </script>
-
     
     
 {% endblock %}

@@ -1,42 +1,90 @@
 {% extends 'users/base.html' %}
 
-{% block title %}Laundry Dash{% endblock %}
+{% block title %}Home{% endblock %} 
 
 {% block extra_styles %}
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
     <style>
-        .welcome-header {
-            font-size: 3rem;
+        .about-section {
+            font-family: 'Roboto', sans-serif; 
+            margin: 20px auto; 
+            max-width: 1200px; 
+            padding: 40px; 
+            background-color: #F0F0F0; /* Light gray background */
+            border-radius: 16px; 
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        .welcome-text {
+            font-size: 55; /* Large font size */
+            font-weight: bold; /* Bold text */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Text shadow for depth */
+            margin-bottom: 20px; /* Spacing below the header */
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .about-header h1 {
+            color: #f88888; 
+            font-size: 3rem; 
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
-        .btn-get-started {
-            font-size: 1.2rem;
-            padding: 10px 20px;
-            background-color: #ff5a5f;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
+        .about-header p {
+            color: #6b7280; 
+            font-size: 1.25rem; 
+            max-width: 800px; 
+            margin: 0 auto;
         }
 
-        .btn-get-started:hover {
-            background-color: #e54e4e;
-            text-decoration: none;
+        .about-section h2 {
+            color: #f88888; 
+            font-size: 1.75rem; 
+            font-weight: bold; 
+            margin-bottom: 15px;
+        }
+
+        .about-section p {
+            color: #374151; 
+            line-height: 1.8; 
+            text-align: justify; 
+            font-size: 1rem; 
+            margin-bottom: 15px;
+        }
+
+        .about-section ul {
+            color: #374151; 
+            line-height: 1.8; 
+            font-size: 1rem; 
+            padding-left: 20px; 
+            list-style-type: disc;
+        }
+
+        .about-section li {
+            margin-bottom: 10px;
+        }
+
+        /* Optional: Add some spacing between sections */
+        .about-section > section {
+            margin-bottom: 50px;
         }
     </style>
 {% endblock %}
 
 {% block content %}
-    <!-- Background image section -->
     <div 
         class="background-image" 
         style="background-image: url('https://gratisography.com/wp-content/uploads/2018/05/gratisography-117H-free-stock-photo.jpg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; height: 100vh; display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center; color: white;">
         <h1 class="welcome-header">Welcome to Laundry Dash</h1>
+        <p class="welcome-text">We’re about more than just laundry — we’re about making lives easier.</p>
         <a href="{% url 'users:login' %}" class="btn btn-get-started">Get Started</a>
     </div>
+
+
 {% endblock %}
 
 {% block extra_scripts %}

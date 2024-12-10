@@ -24,20 +24,7 @@
             </li>
         </ul>
 
-        <ul class="navbar-nav">
-            {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <form action="{% url 'users:logout' %}" method="post" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-light">Log Out</button>
-                    </form>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link btn btn-outline-light" href="{% url 'users:login' %}">Log In</a>
-                </li>
-            {% endif %}
-        </ul>
+
     </nav>
 
     <div class="container">
