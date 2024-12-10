@@ -5,13 +5,37 @@
 {% block extra_styles %}
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
+    <style>
+        .welcome-header {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .btn-get-started {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            background-color: #ff5a5f;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-get-started:hover {
+            background-color: #e54e4e;
+            text-decoration: none;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
     <!-- Background image section -->
-    <div class="background-image">
+    <div 
+        class="background-image" 
+        style="background-image: url('https://gratisography.com/wp-content/uploads/2018/05/gratisography-117H-free-stock-photo.jpg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; height: 100vh; display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center; color: white;">
         <h1 class="welcome-header">Welcome to Laundry Dash</h1>
-        <a href="{% url 'users:login' %}" class="btn btn-get-started">Get Started</a> <!-- Button below the header -->https://c1.wallpaperflare.com/preview/647/892/995/laundry-washing-machines-housewife-household-thumbnail.jpghttps://media.istockphoto.com/id/1442194881/vector/unhappy-girl-have-stains-on-sweater.jpg?s=612x612&w=0&k=20&c=tuRMryeHzb7aF9cWtTZMxYPUaM---kEbFF4f2CYz3X4=" class="card-img-top" alt="Stain Removal">">
+        <a href="{% url 'users:login' %}" class="btn btn-get-started">Get Started</a>
     </div>
 {% endblock %}
 
