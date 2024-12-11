@@ -90,7 +90,7 @@
                             <td>{{ order.service.service_name }}</td>
                             <td>{{ order.get_status_display }}</td>
                             <td>
-                                {% if order.status != 'finished' and order.status != 'driver_on_the_way_to_pickup' and order.status != 'delivered' and order.status != 'driver_on_the_way_to_customer' %}
+                                {% if order.status != 'finished' and order.status != 'driver_on_the_way_to_pickup' and order.status != 'delivered' and order.status != 'driver_on_the_way_to_customer' and order.status != 'looking_for_driver' %}
                                     <a href="{% url 'users:update_order_status' order.id %}" class="btn btn-info btn-sm">Update Status</a>
                                 {% elif order.status == 'finished' %}
                                     <button class="btn btn-secondary btn-sm" disabled>Completed</button>
