@@ -22,8 +22,11 @@
                         {{ order.other_stuff }} other items.
                     </p>
         
-                    {% if order.status != 'finished' %}
-                            <a href="{% url 'users:update_order_status' order.id %}" class="btn btn-primary">Update Order Status</a> 
+                    {% if order.status == 'delivered' %}
+                            <a href="{% url 'users:update_order_status' order.id %}" class="btn btn-primary">Finish Order</a> 
+                    {% else %}
+                            <button class="btn btn-secondary btn-sm" disabled>Delivery Ongoing</button>
+
                     {% endif %}
                 </div>
             </div>

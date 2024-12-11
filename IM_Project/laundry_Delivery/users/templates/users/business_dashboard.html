@@ -62,11 +62,10 @@
 
 <div class="container mt-4">
     <h1 class="mb-4">My Business Orders</h1>
-    
   
     <!-- List of Orders for this Business -->
     {% if orders %}
-        <table class="table table-striped">
+        <table class="table table-striped" id="ordersTable">
             <thead class="thead-light">
                 <tr>
                     <th>Order ID</th>
@@ -79,24 +78,28 @@
             </thead>
             <tbody>
                 {% for order in orders %}
-                    <tr>
-                        <td>{{ order.id }}</td>
-                        <td>{{ order.user }}</td>
-                        <td>{{ order.upper_body_clothes }} upper body, 
-                            {{ order.lower_body_clothes }} lower body, 
-                            {{ order.underwear }} underwear, 
-                            {{ order.other_stuff }} other items.
-                        </td>
-                        <td>{{ order.service.service_name }}</td>
-                        <td>{{ order.get_status_display }}</td>
-                        <td>
-                            {% if order.status != 'finished' %}
-                                <a href="{% url 'users:update_order_status' order.id %}" class="btn btn-info btn-sm">Update Status</a>
-                            {% else %}
-                                <button class="btn btn-secondary btn-sm" disabled>Completed</button>
-                            {% endif %}
-                        </td>
-                    </tr>
+                    {% if order.status != 'finished' %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.user }}</td>
+                            <td>{{ order.upper_body_clothes }} upper body, 
+                                {{ order.lower_body_clothes }} lower body, 
+                                {{ order.underwear }} underwear, 
+                                {{ order.other_stuff }} other items.
+                            </td>
+                            <td>{{ order.service.service_name }}</td>
+                            <td>{{ order.get_status_display }}</td>
+                            <td>
+                                {% if order.status != 'finished' and order.status != 'driver_on_the_way_to_pickup' and order.status != 'delivered' and order.status != 'driver_on_the_way_to_customer' %}
+                                    <a href="{% url 'users:update_order_status' order.id %}" class="btn btn-info btn-sm">Update Status</a>
+                                {% elif order.status == 'finished' %}
+                                    <button class="btn btn-secondary btn-sm" disabled>Completed</button>
+                                {% else %}
+                                    <button class="btn btn-secondary btn-sm" disabled>Please Wait</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>
@@ -106,9 +109,9 @@
 </div>
 
 <script>
+    // Modal functionality for business details
     $('#businessDetailsModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); 
-    
         var businessId = button.data('id');
     
         $.ajax({
@@ -124,7 +127,7 @@
                     ${data.services.map(service => `
                         <p>
                             <strong>${service.service_name}</strong>: ${service.description}<br>
-                            Light Price: $${service.light_tendency_price} | Medium Price: $${service.medium_tendency_price} | Heavy Price: $${service.heavy_tendency_price}
+                            Light Price: ₱${service.light_tendency_price} | Medium Price: ₱${service.medium_tendency_price} | Heavy Price: ₱${service.heavy_tendency_price}
                         </p>
                     `).join('')}
                 `;
@@ -136,7 +139,6 @@
         });
     });
 </script>
-
 
 {% endblock %}
 

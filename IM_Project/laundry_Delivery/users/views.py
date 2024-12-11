@@ -345,6 +345,20 @@ def add_service(request):
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 @login_required
+def business_order_history(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    business_owner = BusinessOwner.objects.get(user_profile=user_profile)
+    businesses = Business.objects.filter(business_owner=business_owner)
+    
+    # Get all completed orders for the business
+    orders = Order.objects.filter(ordered_from_business__in=businesses, status='finished')
+    
+    return render(request, 'users/business_order_history.html', {
+        'orders': orders,
+    })
+
+
+@login_required
 def customer_dashboard(request):
     current_order = Order.objects.filter(user=request.user, status__in=['looking_for_driver', 'driver_on_the_way_to_pickup', 'driver_on_the_way_to_laundry', 'laundry_received', 'laundry_cleaning', 'driver_on_the_way_to_customer']).first()
     

@@ -29,6 +29,7 @@ urlpatterns = [
     path('order/update-status/<int:order_id>/', views.update_order_status, name='update_order_status'),
     path('order/accept-order/<int:order_id>/', views.accept_order_driver, name='accept_order_driver'),
     path('driver_DelivHistory', views.deliv_history, name='driver_DelivHistory'), 
+    path('business_order_history/', views.business_order_history, name='business_order_history'),
 
 ]
 
