@@ -1,7 +1,56 @@
 {% extends 'users/baseCustomer.html' %}
 {% load static %}
 {% block title %}Home{% endblock %}
+<style>
+    .laundry-shop-image {
+    width: 100%;
+    height: auto;
+    max-width: 200px;
+    margin-bottom: 15px;
+}
 
+/* Center the input and ensure it doesn't stretch the full width */
+.mb-3 {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Add spacing above */
+}
+
+#businessSearch {
+    border: 2px solid #007bff; /* Blue border */
+    border-radius: 30px; /* Smooth rounded corners */
+    padding: 12px 20px; /* Comfortable spacing inside */
+    font-size: 16px; /* Easy-to-read text size */
+    max-width: 500px; /* Limit the width */
+    width: 90%; /* Responsive width */
+    box-sizing: border-box; /* Includes padding in width */
+    background-color: #f8f9fa; /* Light grey background */
+    color: #495057; /* Text color */
+    transition: all 0.3s ease; /* Smooth transition for focus and hover */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+#businessSearch:focus {
+    border-color: #0056b3; /* Darker blue border when focused */
+    outline: none; /* Remove default outline */
+    background-color: #ffffff; /* Lighter background on focus */
+    box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.2); /* Shadow effect on focus */
+}
+
+/* Hover effect */
+#businessSearch:hover {
+    border-color: #0056b3; /* Darker blue border when hovered */
+}
+
+/* Optional: Style the search bar on smaller screens */
+@media (max-width: 576px) {
+    #businessSearch {
+        font-size: 14px; /* Slightly smaller font size on smaller screens */
+        padding: 10px 15px; /* Adjust padding for smaller screens */
+    }
+}
+
+</style>
 {% block content %}
     <!-- Bootstrap Carousel -->
     <div id="carouselExample" class="carousel slide" data-ride="carousel">
@@ -79,14 +128,17 @@
     </div>
     <h2 class="title">There's something for everyone!</h2>
 
-    <div class="mb-3">
+    <div class="mb-3 d-flex justify-content-center">
         <input type="text" id="businessSearch" class="form-control" placeholder="Search businesses by name...">
     </div>
+    
+    
+    
 
     <div class="row text-center mt-4" id="businessList">
         {% if businesses %}
             {% for business in businesses %}
-                <div class="col business-item" data-name="{{ business.business_name|lower }}">
+                <div class="col-12 col-sm-6 col-md-4 business-item" data-name="{{ business.business_name|lower }}">
                     <!-- Display Business Logo if available -->
                     {% if business.logo %}
                         <img src="/users{{ business.logo.url }}" alt="{{ business.business_name }} Logo" class="laundry-shop-image">
@@ -109,7 +161,7 @@
                     
                         View Services
                     </button>
-
+    
                 </div>
             {% endfor %}
         {% else %}
@@ -117,7 +169,7 @@
         {% endif %}
     </div>
 
-    <p id="noResultsMessage" class="text-muted mt-3" style="display: none;">We could not find the shop you are looking for.</p>
+    <p id="noResultsMessage" class="text-muted mt-3" style="display: none text-align: center;">We could not find the shop you are looking for.</p>
 
     <!-- Modal for Viewing Services -->
     <div class="modal fade" id="servicesModal" tabindex="-1" role="dialog" aria-labelledby="servicesModalLabel" aria-hidden="true">

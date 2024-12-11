@@ -175,6 +175,7 @@
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
 }
 .text-muted {
+    text-align: center;
     font-style: italic;
 }
 .container {
